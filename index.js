@@ -65,3 +65,11 @@ app.get("/client", function(req,res){
 app.listen(5000, function(){
     console.log("connected to localhost:5000")
 })
+
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static('client/build'));
+}
+
+app.get('*', (request, response) => {
+	response.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
