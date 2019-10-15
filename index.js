@@ -42,7 +42,8 @@ app.get("/admin", function(req,res){
         }else{
             name = response.rows[0].name
             age = response.rows[0].age
-            res.send(" <p> Admin's name: "+ name+ "</p>"+" <p> Admin's age: "+ age+ "</p>")
+            // res.send(" <p> Admin's name: "+ name+ "</p>"+" <p> Admin's age: "+ age+ "</p>")
+            res.send({name: response.rows[0].name});
         }
     })
 });
@@ -61,6 +62,6 @@ app.get("/client", function(req,res){
 })
 
 
-app.listen(3000, function(){
-    console.log("connected to localhost:3000")
+app.listen(5000, function(){
+    console.log("connected to localhost:5000")
 })
