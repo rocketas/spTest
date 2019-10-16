@@ -15,14 +15,18 @@ let info = {
     port : process.env.DBPORT,
     database : process.env.DATABASE,
     str  : function () {
-        return `postgres://${this.account}:${this.password}`
+        let x = `postgres://${this.account}:${this.password}`
           + `@${this.host}:${this.port}`
           + `/${this.database}`;
+
+        console.log(x)
+        return x
       }
 };
 
 
-const client = new Client(info.str())
+
+const client = new Client({connectionString: info.str(), ssl:true})
 
 client
 .connect()
@@ -32,34 +36,43 @@ client
 
 
 app.get("/", function(req,res){
-    res.send("<a href='client'> Client Log In </> <a href='admin'> Admin Log In </>")
+    res.send("<a href='admin'> Admin Log In </> <a href='client'> Client Log In </>")
 })
-
-app.get("/admin", function(req,res){
-    client.query("SELECT * FROM Admin where name = 'Robert' ", (error, response) =>{
-        if(error){
-            console.log("ERROR: SELECT for Admin where name = 'Robert' ", error)
-        }else{
-            name = response.rows[0].name
-            age = response.rows[0].age
-            // res.send(" <p> Admin's name: "+ name+ "</p>"+" <p> Admin's age: "+ age+ "</p>")
-            res.send({name: response.rows[0].name});
-        }
-    })
-});
 
 app.get("/client", function(req,res){
 
-    client.query(" SELECT * FROM users WHERE users.name = 'Elise'  ", (error,response)=>{
+    client.query(" SELECT * FROM Employee", (error,response)=>{
         if(error) {
-            console.log("error in SELECT * FROM users")
+            console.log("error in SELECT * FROM Employee")
         }else{
-            pid = response.rows[0].pid
-            name = response.rows[0].name
-            
-            res.send(" <p> Clients's name: "+ name+ "</p>"+" <p> Clients's pid: "+ pid+ "</p>")        }
+            res.send({
+                name: response.rows[0].name, 
+                rollnumber: response.rows[0].rollnumber
+            })        
+        }
     })
 })
+
+app.get("/admin", function(req,res){
+    client.query("SELECT * FROM admin", (error, response) =>{
+        if(error){
+            console.log("ERROR: SELECT for admin", error)
+        }else{
+            console.log(response.rows[0])
+            res.send({
+                firstName:  response.rows[0].firstName,
+                middleName: response.rows[0].middleName,
+                lastName:   response.rows[0].lastName,
+                email:      response.rows[0].email,
+                phone:      response.rows[0].phone,
+                title:      response.rows[0].title
+                
+            //    response.rows[0]
+            }
+            );
+        }
+    })
+});
 
 
 app.listen(5000, function(){
@@ -72,4 +85,4 @@ if (process.env.NODE_ENV === 'production') {
 
 app.get('*', (request, response) => {
 	response.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-});
+}); 

@@ -9,12 +9,15 @@ class App extends Component {
   componentDidMount() {
     // Call our fetch function below once the component mounts
   this.callBackendAPI()
-    .then(res => this.setState({data: res.name }))
+    .then(res => this.setState({
+      name: res.name, 
+      rollnumber: res.rollnumber 
+    }))
     .catch(err => console.log(err));
 }
   // Fetches our GET route from the Express server. (Note the route we are fetching matches the GET route from server.js
   callBackendAPI = async () => {
-  const response = await fetch('/admin');
+  const response = await fetch('/client');
   const body = await response.json(); 
 
   if (response.status !== 200) {
@@ -26,11 +29,9 @@ class App extends Component {
 render() {
   return (
     <div className="App">
-      <header className="App-header">
-        <h1 className="App-title">Welcome to React</h1>
-        <img src={logo} className="App-logo" alt="logo" />
-      </header>
-      <p className="App-intro">{this.state.data}</p>
+      <h1>Welcome to On-Site Drapery, LLC</h1>
+      <p className="App-intro">Name: {this.state.name}</p>
+      <p className="App-intro">Rollnumber: {this.state.rollnumber}</p>
     </div>
   );
   }
