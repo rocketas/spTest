@@ -36,18 +36,25 @@ client
 
 
 app.get("/", function(req,res){
-    res.send("<a href='admin'> Admin Log In </> <a href='client'> Client Log In </>")
+    res.send("<a href='admin'> Admin Log In </a> <a href='client'> Client Log In </a>")
 })
 
 app.get("/client", function(req,res){
-
+    console.log("entered client route")
     client.query(" SELECT * FROM Employee", (error,response)=>{
         if(error) {
             console.log("error in SELECT * FROM Employee")
         }else{
+            console.log(response.rows)
             res.send({
-                name: response.rows[0].name, 
-                rollnumber: response.rows[0].rollnumber
+                postgreqslEmployeeData: response.rows[0],
+                firstname: response.rows[0].firstname,
+                middlename: response.rows[0].middlename,
+                lastname: response.rows[0].lastname,
+                email: response.rows[0].email,
+                phone: response.rows[0].phone,
+                shiftsworked: response.rows[0].shiftsworked,
+                title: response.rows[0].title
             })        
         }
     })
@@ -60,29 +67,25 @@ app.get("/admin", function(req,res){
         }else{
             console.log(response.rows[0])
             res.send({
-                firstName:  response.rows[0].firstName,
-                middleName: response.rows[0].middleName,
-                lastName:   response.rows[0].lastName,
-                email:      response.rows[0].email,
-                phone:      response.rows[0].phone,
-                title:      response.rows[0].title
-                
-            //    response.rows[0]
-            }
+                postgreqslAdminData: response.rows[0]
+                }
             );
         }
     })
 });
 
 
-app.listen(5000, function(){
-    console.log("connected to localhost:5000")
+app.listen(process.env.PORT || 5000, function(){
+    console.log("connected to node server")
 })
+
+
 
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static('client/build'));
 }
-
+/*
 app.get('*', (request, response) => {
 	response.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 }); 
+*/

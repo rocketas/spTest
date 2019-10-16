@@ -10,8 +10,13 @@ class App extends Component {
     // Call our fetch function below once the component mounts
   this.callBackendAPI()
     .then(res => this.setState({
-      name: res.name, 
-      rollnumber: res.rollnumber 
+      firstname: res.firstname,
+      middlename: res.middlename,
+      lastname: res.lastname,
+      email: res.email,
+      phone: res.phone,
+      shiftsworked: res.shiftsworked,
+      title: res.title
     }))
     .catch(err => console.log(err));
 }
@@ -30,8 +35,14 @@ render() {
   return (
     <div className="App">
       <h1>Welcome to On-Site Drapery, LLC</h1>
-      <p className="App-intro">Name: {this.state.name}</p>
-      <p className="App-intro">Rollnumber: {this.state.rollnumber}</p>
+      <p className="App-intro">First Name: {this.state.firstname}</p>
+      <p className="App-intro">Middle Name: {this.state.middlename}</p>
+      <p className="App-intro">Last Name: {this.state.lastname}</p>
+      <p className="App-intro">Email: {this.state.email}</p>
+      <p className="App-intro">Phone Number: {this.state.phone}</p>
+      <p className="App-intro">Shifts Worked: {this.state.shiftsworked}</p>
+      <p className="App-intro">Title: {this.state.title}</p>
+
     </div>
   );
   }
