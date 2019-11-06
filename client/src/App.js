@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import ReactDOM from "react-dom";
+import { createBrowserHistory } from "history";
+import { Router, Route, Switch } from "react-router-dom";
+import Home from "./views/Home/Home.js";
+import LoginPage from "./views/LoginPage/LoginPage.js";
+
+import "./assets/scss/material-kit-react.scss";
+
+var hist = createBrowserHistory();
 
 class App extends Component {
   state = {
@@ -29,20 +36,25 @@ class App extends Component {
     throw Error(body.message) 
   }
   return body;
-};
+  };
 
 render() {
   return (
     <div className="App">
-      <h1>Welcome to On-Site Drapery, LLC</h1>
+      {/* <h1>Welcome to On-Site Drapery, LLC</h1>
       <p className="App-intro">First Name: {this.state.firstname}</p>
       <p className="App-intro">Middle Name: {this.state.middlename}</p>
       <p className="App-intro">Last Name: {this.state.lastname}</p>
       <p className="App-intro">Email: {this.state.email}</p>
       <p className="App-intro">Phone Number: {this.state.phone}</p>
       <p className="App-intro">Shifts Worked: {this.state.shiftsworked}</p>
-      <p className="App-intro">Title: {this.state.title}</p>
-
+      <p className="App-intro">Title: {this.state.title}</p> */}
+      <Router history={hist}>
+        <Switch>
+          <Route path="/login" component={LoginPage} />
+          <Route path="/" component={Home} />
+        </Switch>
+      </Router>,
     </div>
   );
   }
