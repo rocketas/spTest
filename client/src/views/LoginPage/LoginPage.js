@@ -62,7 +62,7 @@ export default function LoginPage(props) {
                         href="#pablo"
                         target="_blank"
                         color="transparent"
-                        onClick={e => e.preventDefault()}
+                        /* onClick={e => e.preventDefault() } */
                       >
                        <i className={"fab fa-google-plus-g"} ></i>
                       </Button>
@@ -104,7 +104,7 @@ export default function LoginPage(props) {
                     />
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
-                    <Button simple color="primary" size="lg">
+                    <Button name = "login" href="/" simple color="primary" size="lg" >
                       Login
                     </Button>
                   </CardFooter>

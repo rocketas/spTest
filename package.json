@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --coverage --coverageDirectory=output/coverage/jest", 
     "start": "node index.js",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
@@ -14,10 +14,25 @@
     "dotenv": "^8.1.0",
     "ejs": "^2.7.1",
     "express": "^4.17.1",
+    "jest-junit": "^9.0.0",
     "pg": "^7.12.1"
   },
   "engines": {
     "node": "10.16.3",
     "npm": "6.11.3"
+  },
+  "jest": {
+    "coverageReporters": [
+      "text"
+    ],
+    "reporters": [
+      "default",
+      "jest-junit"
+    ]
+  },
+  "jest-junit": {
+    "output": "output/coverage/junit/junit.xml",
+    "usePathForSuiteName": "true"
   }
 }
+
