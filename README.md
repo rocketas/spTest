@@ -6,12 +6,24 @@ A tweet-sized (280 characters max) summary of why the project exists.
 
 ### Running the React App
 #### Prerequisites: 
-what other software needs to be installed before developing or running this software (e.g. Node.js)? Give specific commands to install the software, noting any assumptions about package management tools or operating system.
+
+This React app is built using create-react-app and does not require additonal support before installation. [See Docs Here](https://reactjs.org/docs/create-a-new-react-app.html)
+
 #### Installing: 
-how can a user get a working development environment? Give step-by-step instructions.
+
+1. Clone the repository `git clone `
+  
+2. Navigate into client `cd onSiteDrpaery/client`
+  
+3. Install dependencies `npm install`
+  
 #### Running locally: 
-once everything is installed, how can a user start a local server?
-Warranty: when (in terms of date or commit) were these instructions last tested and verified to work, by whom, and on what operating system?
+
+Run the React app locally using `npm start`
+
+#### Warranty: 
+
+Last Tested on a macOS Mojave system on November 13, 2019 by Elise Dixon. 
 
 # Testing
 
