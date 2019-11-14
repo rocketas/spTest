@@ -7,33 +7,29 @@ A tweet-sized (280 characters max) summary of why the project exists.
 
 This server is created with Express.js
 
-### Installing:
+#### Installing:
 
 1. Clone the repository `git clone`
 2. Install dependencies `npm install`
 
-### Running express server:
+#### Running express server:
 
 1) run `npm run start` 
 
 Messages should appear on the console with confirmations that your server is up and running.
 
 ### Running the React App
-#### Prerequisites: 
-
-This React app is built using create-react-app and does not require additonal support before installation. [See Docs Here](https://reactjs.org/docs/create-a-new-react-app.html)
 
 #### Installing: 
-` 
 1. Navigate into client `cd onSiteDrpaery/client`
   
 2. Install dependencies `npm install`
 
 #### Warranty: 
 
-Navitage to "http://localhost:3000" to view the React and Express application.
+Navigate to "http://localhost:3000" to view the React and Express application.
 
-Last Tested on a macOS Mojave system on November 13, 2019 by Elise Dixon. 
+Last tested on a macOS Mojave system on November 13, 2019 by Elise Dixon.
 
 # Testing
 
@@ -49,6 +45,7 @@ In order to run the test, install Jest. This is a testing framework that will ex
 Jest can cover both unit and integration tests, simply putting them in separate files for structure will suffice.
 
 Remember that in order for this to work, the test files have to be written according the jest api.
+
 # Deployment
 
 Where does the production system live? How would a new developer get access to it?
@@ -57,6 +54,7 @@ What are the various pieces that the fully deployed software uses? For example, 
 Is continuous integration or continuous deployment enabled? If so, where does it live?
 
 # Technologies used
+This application is built using a React frontend with a Node server and Express backend. The database is built using PostgresQL and it, as well as the rest of the application, is hosted using Heroku.
 
 #### React
 The React app is stored within the `/client` folder
@@ -67,7 +65,7 @@ Heroku is used for hosting the web application and the PostgresQL database.
 
 # Contributing
 
-All Javascript is written using ES6. For more information about the project, see the project website: [COMP 523 R Team](http://comp523teamr.web.unc.edu/)
+The only thing necessary to contribute is access to this Github repository. Please note that all Javascript is written using ES6. For more information about the project, see the project website: [COMP 523 R Team](http://comp523teamr.web.unc.edu/)
 
 # Authors
 Tian Liu - Front-end and Design Lead
