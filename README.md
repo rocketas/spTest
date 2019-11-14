@@ -1,6 +1,6 @@
 # On-Site Drapery
 
-A tweet-sized (280 characters max) summary of why the project exists.
+The project exists because the client, OnSite Drapery, isn’t fully satisfied with the current business logistics. A combination of paid and free software/services led to unnecessary overhead and potential loss of sales or client satisfaction. The goals of this project are to optimize business logistics for OnSite Drapery Cleaning. Help the company to become more efficient, faster, less error-prone, and more satisfying to customers. Specifically, the web application should help OnSite Drapery Cleaning to solve these main problems: scheduling, billing, certifications, and web interface.
 
 # Getting started
 ### Running the Server
