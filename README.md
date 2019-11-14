@@ -27,9 +27,18 @@ Last Tested on a macOS Mojave system on November 13, 2019 by Elise Dixon.
 
 # Testing
 
-How can the user run the test suite? Give specific commands.
-Any other test-related commands to know about, e.g. a different command for unit tests vs. integration tests?
+In order to run the test, install Jest. This is a testing framework that will execute .test.js files and yield the corresponding test results.
+1) npm i jest superagent supertest
+2) add the following script to package.json
+    {"test: "jest"}
+* if you want to watch jest to watch for changes, put {"test":"jest --watch"} instead.
+3) run
+    {npm run test}
+* if you want to get a full test coverage report, put the following script in your package.json {"testCoverge": "jest --coverage"} and run {npm run testCoverage} in your terminal.
 
+Jest can cover both unit and integration tests, simply putting them in separate files for structure will suffice.
+
+Remember that in order for this to work, the test files have to be written according the jest api.
 # Deployment
 
 Where does the production system live? How would a new developer get access to it?
