@@ -3,6 +3,20 @@
 A tweet-sized (280 characters max) summary of why the project exists.
 
 # Getting started
+### Running the Server
+
+This server is created with Express.js
+
+### Installing:
+
+1. Clone the repository `git clone`
+2. Install dependencies `npm install`
+
+### Running express server:
+
+1) run `npm run start` 
+
+Messages should appear on the console with confirmations that your server is up and running.
 
 ### Running the React App
 #### Prerequisites: 
@@ -10,18 +24,14 @@ A tweet-sized (280 characters max) summary of why the project exists.
 This React app is built using create-react-app and does not require additonal support before installation. [See Docs Here](https://reactjs.org/docs/create-a-new-react-app.html)
 
 #### Installing: 
-
-1. Clone the repository `git clone `
+` 
+1. Navigate into client `cd onSiteDrpaery/client`
   
-2. Navigate into client `cd onSiteDrpaery/client`
-  
-3. Install dependencies `npm install`
-  
-#### Running locally: 
-
-Run the React app locally using `npm start`
+2. Install dependencies `npm install`
 
 #### Warranty: 
+
+Navitage to "http://localhost:3000" to view the React and Express application
 
 Last Tested on a macOS Mojave system on November 13, 2019 by Elise Dixon. 
 
