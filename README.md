@@ -31,7 +31,7 @@ This React app is built using create-react-app and does not require additonal su
 
 #### Warranty: 
 
-Navitage to "http://localhost:3000" to view the React and Express application
+Navitage to "http://localhost:3000" to view the React and Express application.
 
 Last Tested on a macOS Mojave system on November 13, 2019 by Elise Dixon. 
 
