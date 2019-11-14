@@ -40,9 +40,9 @@ Is continuous integration or continuous deployment enabled? If so, where does it
 # Technologies used
 
 #### React
-The React app is stored within the /client folder
+The React app is stored within the `/client` folder
 #### Node.js and Express
-This can be found within the index.js file
+This can be found within the `index.js` file
 #### PostgresQL and Heroku
 Heroku is used for hosting the web application and the PostgresQL database.
 
