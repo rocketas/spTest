@@ -48,10 +48,7 @@ Remember that in order for this to work, the test files have to be written accor
 
 # Deployment
 
-Where does the production system live? How would a new developer get access to it?
-Are there any staging or pre-production environments that developers can use?
-What are the various pieces that the fully deployed software uses? For example, with Heroku, what addons does the app use?
-Is continuous integration or continuous deployment enabled? If so, where does it live?
+The production system live on Heroku. A new developer can gain access by join the developer team. We recommend developers to install the Heroku Command Line Interface to deploy the project. This would allow the user to login to heroku, clone the repository, and deploy back to the reposiroty. With Heroku, the only addon that we use is PostgreSQL that allows us to store the data in the database. Developers can use this method to continue to deploy projects to the Heroku host. 
 
 # Technologies used
 This application is built using a React frontend with a Node server and Express backend. The database is built using PostgresQL and it, as well as the rest of the application, is hosted using Heroku.
@@ -91,4 +88,4 @@ DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE TERMS AND CONDITIONS FOR COPYING, DI
 
 # Acknowledgements
 
-Is there anybody else you'd like to thank, or any resources that have been especially helpful?
+We really appreciate Dr. Terrell's helps on this project. He's being a great source for us whenever we need help. 
