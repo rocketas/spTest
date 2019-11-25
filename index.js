@@ -1,12 +1,61 @@
-var express  = require('express'),
-    {Client} = require("pg"),
-         app = express();
-         env = require('dotenv'),
+const express  = require('express'),
+      {Client} = require("pg"),
+         app   = express(),
+         env   = require('dotenv');
          env.config()
 
+const path          = require('path'),
+      generalRoutes = require("./routes/general-routes"), 
+      authRoutes    = require("./routes/auth-routes"),
+      queryString   = require('query-string'),
+      passportGoole = require("./config/google"),
+      passport      = require('passport'),
+      cookieSession = require('cookie-session'),
+      cors          = require('cors'),
+      bodyParser     = require('body-parser')
 
 
 
+let whiteListOrigins = [
+  'http://localhost:5000/login',
+  'http://localhost:5000',
+  'http://localhost:3000',
+  'http://localhost:3000/auth/google/login',
+  'http://localhost:3000/auth/google',
+  'http://localhost:3000/auth/google/logintest',
+  'http://localhost:5000/auth/login',
+  'http://localhost:5000/auth/signup',
+  'http://localhost:5000/auth/logout',
+  'http://localhost:5000/auth/login'
+]
+
+
+let corsOptions = {
+  origin: function(origin, callback){
+    if(!origin || whiteListOrigins.indexOf(origin) !== -1){
+      callback(null,true)
+    }else{
+      console.log(origin)
+      callback(new Error("cors error in setup"))
+    }
+  }
+}
+
+app.use(cors(corsOptions))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}))
+
+//app.use(express.json())
+
+app.use(cookieSession({
+  maxAge: 0.5*60*60*1000,
+  //keys: [cookieKey.Cookie.key]
+  keys: [process.env.COOKIE_KEY]
+}));
+
+
+app.use(passport.initialize());
+app.use(passport.session());
 // Using env to hide credentials, used to access postgreSQL
 let info = {
     account : process.env.ACCOUNT_NAME,
@@ -24,68 +73,28 @@ let info = {
       }
 };
 
+export const postgreSQLclient = new Client({connectionString: info.str(), ssl:true})
 
-
-const client = new Client({connectionString: info.str(), ssl:true})
-
-client
+postgreSQLclient
 .connect()
 .then(() => console.log('connected to PostgreSQL'))
 .catch(err => console.error('connection error to PostgreSQL', err.stack))
- 
-
-
-app.get("/", function(req,res){
-    res.send("<a href='admin'> Admin Log In </a> <a href='client'> Client Log In </a>")
-})
-
-app.get("/client", function(req,res){
-    console.log("entered client route")
-    client.query(" SELECT * FROM Employee", (error,response)=>{
-        if(error) {
-            console.log("error in SELECT * FROM Employee")
-        }else{
-            console.log(response.rows)
-            res.send({
-                postgreqslEmployeeData: response.rows[0],
-                firstname: response.rows[0].firstname,
-                middlename: response.rows[0].middlename,
-                lastname: response.rows[0].lastname,
-                email: response.rows[0].email,
-                phone: response.rows[0].phone,
-                shiftsworked: response.rows[0].shiftsworked,
-                title: response.rows[0].title
-            })        
-        }
-    })
-})
-
-app.get("/admin", function(req,res){
-    client.query("SELECT * FROM admin", (error, response) =>{
-        if(error){
-            console.log("ERROR: SELECT for admin", error)
-        }else{
-            console.log(response.rows[0])
-            res.send({
-                postgreqslAdminData: response.rows[0]
-                }
-            );
-        }
-    })
-});
-
-
-app.listen(process.env.PORT || 5000, function(){
-    console.log("connected to node server")
-})
 
 
 
-if (process.env.NODE_ENV === 'production') {
-	app.use(express.static('client/build'));
-}
+
+app.use("/", generalRoutes);
+app.use("/auth", authRoutes);
+app.use(express.static('client/build'));
+
+
+
 /*
 app.get('*', (request, response) => {
 	response.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 }); 
 */
+
+module.exports = app;
+
+
