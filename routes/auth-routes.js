@@ -3,38 +3,8 @@ import {generateAccessToken, verifyToken} from '../config/tokens.js'
 
 const express     = require("express"),
      app          = express(),
-     passport     = require('passport'),
-     jsonwt       = require("jsonwebtoken"),
      bcrypt       = require('bcrypt')
 
-
-
-    /*
-        need to create Schema for user
-
-       test table:
-
-       username text unique  --> for our purposes it is also email
-       googleid text unique
-       firstname text
-       middlename text
-       lastname text
-       shiftsworked integer
-
-    
-    */
-
-
-
-app.get("/google/success", function(req,res){
-    console.log("in successful route" )
-    res.json(req.user)    
-})
-
-app.get("/google/failed", (req,res) =>{
-
-    res.send("you have failed logging in")
-})
 
 app.post("/signup", (req,res) =>{
     console.log("in /auth/signup")
@@ -76,90 +46,106 @@ app.post("/signup", (req,res) =>{
 
 })
 
-app.post("/login", (req,res) =>{
+app.post("/logout" , (req,res,next) => {
+    console.log(req.session.user)
+    req.session.destroy()
+    console.log(req.session)
+})
 
-    console.log("in login /auth/route")
-    console.log(req)
-    let userpassword = req.body.password
-    let username = [req.body.username]
-    let user = undefined
+//landing route for signup with username and password (not oauth)
+app.post("/login", async (req,res, next) => {
+    console.log("BODY")
     console.log(req.body)
 
+    let user = await findUserByUsernameAndPassword(req.body.username, req.body.password, next)
+
+    if(user === undefined){
+        console.log("user returned undefined")
+        res.status(401).send("incorrect username or password")
+    }else{
+        console.log("user returned")
+        console.log(user)
+        req.session.user = user
+        res.send(user)
+    }
+    
+})
+
+// landing route with data from google oauth
+app.post('/google/login', async (req, res , next)=>{
+
+    let user = await findUserByGoogleID(req.headers.authentication, next)
+    console.log(user)
+    if(user === undefined){
+        res.status(401).send("user not found")
+    }else{
+        console.log("printing found user")
+        console.log(user)
+        req.session.user = user
+        console.log("printing req.session in /google/login")
+        console.log(req.session)
+        res.send(user)
+    }
+})
+
+let findUserByUsernameAndPassword = async (username, password, next) => {
+    
+    console.log(username)
+    console.log(password)
     let findUser = `SELECT * FROM Test WHERE Test.username = $1`
+    let response;
 
 
-    //we try to find the user that corresponds to the inputted username 
-    postgreSQLclient.query(findUser,username, (error, response) =>{
-        let hashedPassword = null
-        if(error){
-            console.log("error finding user with username and password signin")
-            console.log(error)
-        }else{
-            if(response.rows.length == 0){
-                console.log("username not found")
-                res.send("There is no account under this email, please sign up")
-            }else{
-                //if we have found a user with the passed username, we check if the password is correct
-                hashedPassword = response.rows[0].password
-                bcrypt.compare(userpassword, hashedPassword, (error, response) => {
-                    if(error){
-                        console.log("error signing user in with username and password")
-                        console.log(error)
-                    }else if(response == true) {
-                        console.log("user has correct username and password")
-                        console.log("user")
-                        res.send(user)
-                    }else{
-                        console.log("password is not correct for given email ")
-                        user = undefined
-                        res.send(user)
-                    }
-                })
-            }
+    //checks if accout with username exists
+    try{
+        response = await postgreSQLclient.query(findUser,[username])
+        if(response === undefined){
+            return undefined
+        }else if(response.rows.length === 0){
+            return undefined
         }
-    })
+    }catch(error){
+        next(error)
+    }
+    console.log("if reponse is undefined should not b here")
+    console.log(response)
 
-   
-})
+    //checks if password was correct
+    try{
+        let hashedPassword = response.rows[0].password
+        let passwordCheck = await bcrypt.compare(password, hashedPassword)
+        if(passwordCheck === true){
+            return response.rows[0]
+        }else{
+            return undefined
+        }
+    }catch(error){
+        next(error)
+    }
 
-app.post('/google/logintest', (req, res)=>{
+}
 
+let findUserByGoogleID = async (id, next) => {
+    console.log(id)
+    let response = undefined
     let checkAdminQuery = `SELECT * FROM Admin WHERE Admin.googleID = $1` 
+    try{
+        response = await postgreSQLclient.query(checkAdminQuery,[id])
+    }catch(error){
+        next(error)
+    }
+    if(response === undefined){
+        return response
+    }
+    return response.rows[0]
+    
 
-    postgreSQLclient.query(checkAdminQuery,[req.headers.authentication], (error, response) => {
-        if(error){
-            console.log("error finding user")
-            console.log(error)
-        }else{
-            console.log("user found")
-            console.log(response.rows[0])
-            let user = response.rows[0]
-            res.send(user)
-        }
-    })
-
-})
+}
 
 
-let findUserByGoogleID = async (id) => {
-    let valid = [id]
-    let checkAdminQuery = `SELECT * FROM Admin WHERE Admin.googleID = $1` 
 
-    postgreSQLclient.query(checkAdminQuery,valid, (error, response) => {
-        if(error){
-            console.log("error finding user")
-            console.log(error)
-        }else{
-            console.log("user found")
-            console.log(response.rows[0])
-            user = response.rows[0]
-        }
-    })
-
-    return user
-} 
-
-
+/**IGNORE BELOW -- Might be useful down the road for backend passport oauth */
+/*
 
 app.get('/google/login',passport.authenticate('google', { scope: ['profile email']  }))
 
@@ -175,6 +161,15 @@ app.get('/google/callback', passport.authenticate('google', {failureRedirect: 'f
      res.redirect('/')
  })
 
+ app.get("/google/success", function(req,res){
+    console.log("in successful route" )
+    res.json(req.user)    
+})
 
-let findUser
+app.get("/google/failed", (req,res) =>{
+
+    res.send("you have failed logging in")
+})
+*/
+
 module.exports = app;

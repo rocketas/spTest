@@ -10,7 +10,7 @@ const path          = require('path'),
       queryString   = require('query-string'),
       passportGoole = require("./config/google"),
       passport      = require('passport'),
-      cookieSession = require('cookie-session'),
+      expressSession = require('express-session'),
       cors          = require('cors'),
       bodyParser     = require('body-parser')
 
@@ -41,18 +41,33 @@ let corsOptions = {
   }
 }
 
+app.use(expressSession({
+  secret: process.env.EXPRESS_SESSION_SECRET,
+  resave: false,
+  httpOnly: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}))
+
+
 app.use(cors(corsOptions))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
 //app.use(express.json())
 
-app.use(cookieSession({
-  maxAge: 0.5*60*60*1000,
-  //keys: [cookieKey.Cookie.key]
-  keys: [process.env.COOKIE_KEY]
-}));
+let loginCheck = (req, res, next) => {
+  console.log("printing req.session")
+  console.log(req.session)
+  if(req.session.user){
+    console.log("user is logged in")
+  }else{
+    console.log("user is not logged in")
+  }
+  next()
+}
 
+app.use(loginCheck)
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -87,7 +102,14 @@ app.use("/", generalRoutes);
 app.use("/auth", authRoutes);
 app.use(express.static('client/build'));
 
+app.use(function handlePostgresError(error, req, res, next){
+  console.log("in error handling middlware")
+  console.log(error)
+})
 
+app.use(function authorizationError(error, req, res, next){
+
+})
 
 /*
 app.get('*', (request, response) => {
