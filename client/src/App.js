@@ -10,6 +10,32 @@ import EditDashboardPage from "./views/ProfileDashboard/EditDashboardPage.js";
 import "./assets/scss/material-kit-react.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./shards-dashboard/styles/shards-dashboards.1.1.0.min.css";
+import rootReducer from './redux/reducers/rootReducer'
+import login from './redux/actions/login'
+
+import {createStore} from 'redux'
+
+import {Provider} from 'react-redux'
+
+
+
+/*
+
+      react redux provides connect function which reads values from redux store and re-reads on state updates
+
+      connect function --> Takes two optional arguments
+          1) mapStateToProps() --> receives entire store state and returns the object of data the component needs
+              * do you have to pass the state? where is the return value applied? 
+          2) mapDispatchToProps --> can either be an object or function. 
+              2.1) function --> receives dispatch as an argument, called once upon component creation
+                                returns an object full of functions that use dispatch to dispatch actions
+              2.2) object full of action creators, each action creator will be turned into a prop functionthat automatically
+                                                  dispatches its action when called
+*/
+
+let reduxStore = createStore(rootReducer, {},  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+
+
 
 var hist = createBrowserHistory();
 
@@ -25,6 +51,7 @@ class App extends Component {
 
 render() {
   return (
+    <Provider store={reduxStore}>
     <div className="App">
       {/* <h1>Welcome to On-Site Drapery, LLC</h1>
       <p className="App-intro">First Name: {this.state.firstname}</p>
@@ -43,6 +70,7 @@ render() {
         </Switch>
       </Router>,
     </div>
+    </Provider>
   );
   }
  }

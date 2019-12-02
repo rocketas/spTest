@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import Icon from "@material-ui/core/Icon";
-// @material-ui/icons
-import Email from "@material-ui/icons/Email";
-import People from "@material-ui/icons/People";
-// core components
+
 import Header from "../../components/Header/Header.js";
 import HeaderLinks from "../../components/Header/HeaderLinks.js";
 import GridContainer from "../../components/Grid/GridContainer.js";
@@ -15,12 +10,16 @@ import Button from "../../components/CustomButtons/Button.js";
 import Card from "../../components/Card/Card.js";
 import CardBody from "../../components/Card/CardBody.js";
 import CardFooter from "../../components/Card/CardFooter.js";
-import CustomInput from "../../components/CustomInput/CustomInput.js";
 import Logo from "../../assets/img/logo.png";
 import styles from "../../assets/jss/material-kit-react/views/loginPage.js";
 import image from "../../assets/img/background.png";
 import Input from '@material-ui/core/Input';
-import google from "../../assets/img/google_icon.png";
+
+
+import login from '../../redux/actions/login'
+import logout from '../../redux/actions/logout'
+
+import {connect} from 'react-redux'
 
 const useStyles = makeStyles(styles);
 
@@ -28,7 +27,13 @@ const useStyles = makeStyles(styles);
 const {GoogleLogin} = require("react-google-login")
 const axios = require('axios')
 
-export default function LoginPage(props) {
+
+
+
+function LoginPage(props) {
+
+  console.log("props of login page")
+  console.log(props)
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
   setTimeout(function() {
     setCardAnimation("");
@@ -67,13 +72,11 @@ export default function LoginPage(props) {
         data: credentials
       })
       let user = response.data
+      props.loginDispatch(user)
       console.log(user)
     }catch(error){
       console.log(error)
     }
-    
-    
-    
   }
 
   // called after user sign ins with google oauth
@@ -98,7 +101,9 @@ export default function LoginPage(props) {
         }
       })
       console.log("user authorized")
+      props.loginDispatch(user)
       console.log(user)
+      //dispatch(login())
     }catch(error){
       console.log(error)
     }
@@ -175,3 +180,22 @@ export default function LoginPage(props) {
     </div>
   );
 }
+
+const mapStateToProps = (state) => {
+  return({
+    isLoggedIn: state.isLoggedIn,
+    user: state.user
+  })
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return({
+    loginDispatch: (user) => dispatch(login(user)),
+    logoutDispatch: () => dispatch(logout())
+  })
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoginPage)
