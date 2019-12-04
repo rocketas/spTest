@@ -15,7 +15,6 @@ import styles from "../../assets/jss/material-kit-react/views/loginPage.js";
 import image from "../../assets/img/background.png";
 import Input from '@material-ui/core/Input';
 
-import {useHistory} from 'react-router-dom'
 import login from '../../redux/actions/login'
 import logout from '../../redux/actions/logout'
 
@@ -99,7 +98,8 @@ function LoginPage(props) {
 
       props.loginDispatch(user.data)
       props.history.push("/profile")
-      
+      console.log("inside loginpage auth redirect")
+      console.log(props.history)
     }catch(error){
       console.log(error)
     }

@@ -15,7 +15,6 @@ const authentication = (state = INITIAL_STATE,  action) => {
             })
         case 'LOGOUT':
             return ({
-                ...state,   
                 isLoggedIn: false,
                 user: undefined
             })

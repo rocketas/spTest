@@ -1,5 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import {connect} from 'react-redux'
+import logout from '../../../../redux/actions/logout'
+
 import {
   Dropdown,
   DropdownToggle,
@@ -10,7 +13,7 @@ import {
   NavLink
 } from "shards-react";
 
-export default class UserActions extends React.Component {
+class UserActions extends React.Component {
   constructor(props) {
     super(props);
 
@@ -18,6 +21,7 @@ export default class UserActions extends React.Component {
       visible: false
     };
 
+    this.logout = this.logout.bind(this)
     this.toggleUserActions = this.toggleUserActions.bind(this);
   }
 
@@ -25,6 +29,13 @@ export default class UserActions extends React.Component {
     this.setState({
       visible: !this.state.visible
     });
+  }
+
+  logout(){
+    console.log("in logout of useractions")
+    console.log(this.props)
+    this.props.logoutDispatch()
+    console.log(this.props)
   }
 
   render() {
@@ -46,7 +57,7 @@ export default class UserActions extends React.Component {
             <img src={require("./../../../../images/icons/edit.png")}/>Edit Profile
           </DropdownItem>
           <DropdownItem divider />
-          <DropdownItem tag={Link} to="/" className="text-danger">
+          <DropdownItem className="text-danger" onClick={this.logout}>
             <img src={require("./../../../../images/icons/logout.png")}/>Logout
           </DropdownItem>
         </Collapse>
@@ -54,3 +65,18 @@ export default class UserActions extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+
+  return({
+    isLoggedIn: state.authentication.isLoggedIn,
+    user:state.authentication.user
+  })
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return({
+    logoutDispatch: () => dispatch(logout())
+  })
+}
+export default connect(mapStateToProps, mapDispatchToProps)(UserActions)

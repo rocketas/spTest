@@ -64,19 +64,12 @@ render() {
     <Provider store={reduxStore}>
       <PersistGate loading={<div>Hello</div>} persistor={persistor}>
     <div className="App">
-      {/* <h1>Welcome to On-Site Drapery, LLC</h1>
-      <p className="App-intro">First Name: {this.state.firstname}</p>
-      <p className="App-intro">Middle Name: {this.state.middlename}</p>
-      <p className="App-intro">Last Name: {this.state.lastname}</p>
-      <p className="App-intro">Email: {this.state.email}</p>
-      <p className="App-intro">Phone Number: {this.state.phone}</p>
-      <p className="App-intro">Shifts Worked: {this.state.shiftsworked}</p>
-      <p className="App-intro">Title: {this.state.title}</p> */}
+ 
       <BrowserRouter>
-          <Route path="/login" component={LoginPage} />
-          <Route path="/profile" component={DashboardPage}/>
-          <Route path="/editprofile" component={EditDashboardPage}/>
-          <Route path="/" exact component={Home} />
+            <Route path="/login" component={LoginPage} />
+            <Route path="/profile" component={DashboardPage}/>
+            <Route path="/editprofile" component={EditDashboardPage}/>
+            <Route path="/" exact component={Home} />
         </BrowserRouter>
     </div>
     </PersistGate>
