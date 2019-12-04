@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import ReactDOM from "react-dom";
-import { createBrowserHistory } from "history";
+
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 // import { DefaultLayout } from "./layouts";
 import Home from "./views/Home/Home.js";
@@ -11,14 +10,25 @@ import "./assets/scss/material-kit-react.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./shards-dashboard/styles/shards-dashboards.1.1.0.min.css";
 import rootReducer from './redux/reducers/rootReducer'
-import login from './redux/actions/login'
-
-import {localState, updateStorage} from './redux/localState'
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import { PersistGate } from 'redux-persist/lib/integration/react';
 
 import {createStore} from 'redux'
-
-
 import {Provider} from 'react-redux'
+
+const persistConfig = {
+  key: 'root',
+  storage: storage,
+  stateReconciler: autoMergeLevel2 // see "Merge Process" section for details.
+ };
+
+ const pReducer = persistReducer(persistConfig, rootReducer);
+
+ let reduxStore = createStore(pReducer, {},  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+
+ const persistor = persistStore(reduxStore)
 
 
 
@@ -36,7 +46,6 @@ import {Provider} from 'react-redux'
                                                   dispatches its action when called
 */
 
-let reduxStore = createStore(rootReducer, {},  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
 
 
@@ -53,6 +62,7 @@ class App extends Component {
 render() {
   return (
     <Provider store={reduxStore}>
+      <PersistGate loading={<div>Hello</div>} persistor={persistor}>
     <div className="App">
       {/* <h1>Welcome to On-Site Drapery, LLC</h1>
       <p className="App-intro">First Name: {this.state.firstname}</p>
@@ -69,6 +79,7 @@ render() {
           <Route path="/" exact component={Home} />
         </BrowserRouter>
     </div>
+    </PersistGate>
     </Provider>
   );
   }
