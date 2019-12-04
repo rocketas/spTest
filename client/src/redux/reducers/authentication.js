@@ -1,6 +1,9 @@
 
-
-const authentication = (state, action) => {
+const INITIAL_STATE = {
+    isLoggedIn: false,
+    user: undefined
+}
+const authentication = (state = INITIAL_STATE,  action) => {
 
     switch(action.type){
         case 'LOGIN':
@@ -17,10 +20,7 @@ const authentication = (state, action) => {
                 user: undefined
             })
         default:
-            return({
-                ...state,
-                isLoggedIn: false
-            })
+            return state
     }
    
 }

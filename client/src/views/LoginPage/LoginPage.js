@@ -15,7 +15,7 @@ import styles from "../../assets/jss/material-kit-react/views/loginPage.js";
 import image from "../../assets/img/background.png";
 import Input from '@material-ui/core/Input';
 
-
+import {useHistory} from 'react-router-dom'
 import login from '../../redux/actions/login'
 import logout from '../../redux/actions/logout'
 
@@ -73,7 +73,7 @@ function LoginPage(props) {
       })
       let user = response.data
       props.loginDispatch(user)
-      console.log(user)
+      props.history.push("/profile")
     }catch(error){
       console.log(error)
     }
@@ -82,10 +82,6 @@ function LoginPage(props) {
   // called after user sign ins with google oauth
   // we make a post request to server which determines returns user if account exists
   const responseGoogleSuccess = async (res) => {
-
-    console.log("response:  ")
-    console.log(res.profileObj)    
-    
     try{
       let user = await axios({
         method:'post',
@@ -100,15 +96,14 @@ function LoginPage(props) {
           googleId: res.profileObj.googleId
         }
       })
-      console.log("user authorized")
-      props.loginDispatch(user)
-      console.log(user)
-      //dispatch(login())
+
+      props.loginDispatch(user.data)
+      props.history.push("/profile")
+      
     }catch(error){
       console.log(error)
     }
    
-
   }
 
   const responseGoogleFailure = res => {
@@ -182,9 +177,11 @@ function LoginPage(props) {
 }
 
 const mapStateToProps = (state) => {
+  console.log("in mapstate of login")
+  console.log(state)
   return({
-    isLoggedIn: state.isLoggedIn,
-    user: state.user
+    isLoggedIn: state.authentication.isLoggedIn,
+    user: state.authentication.user
   })
 }
 

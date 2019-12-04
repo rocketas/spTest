@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from "react-dom";
 import { createBrowserHistory } from "history";
-import { Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 // import { DefaultLayout } from "./layouts";
 import Home from "./views/Home/Home.js";
 import LoginPage from "./views/LoginPage/LoginPage.js";
@@ -13,7 +13,10 @@ import "./shards-dashboard/styles/shards-dashboards.1.1.0.min.css";
 import rootReducer from './redux/reducers/rootReducer'
 import login from './redux/actions/login'
 
+import {localState, updateStorage} from './redux/localState'
+
 import {createStore} from 'redux'
+
 
 import {Provider} from 'react-redux'
 
@@ -37,8 +40,6 @@ let reduxStore = createStore(rootReducer, {},  window.__REDUX_DEVTOOLS_EXTENSION
 
 
 
-var hist = createBrowserHistory();
-
 class App extends Component {
   state = {
     data: null
@@ -61,14 +62,12 @@ render() {
       <p className="App-intro">Phone Number: {this.state.phone}</p>
       <p className="App-intro">Shifts Worked: {this.state.shiftsworked}</p>
       <p className="App-intro">Title: {this.state.title}</p> */}
-      <Router history={hist}>
-        <Switch>
+      <BrowserRouter>
           <Route path="/login" component={LoginPage} />
           <Route path="/profile" component={DashboardPage}/>
           <Route path="/editprofile" component={EditDashboardPage}/>
-          <Route path="/" component={Home} />
-        </Switch>
-      </Router>,
+          <Route path="/" exact component={Home} />
+        </BrowserRouter>
     </div>
     </Provider>
   );

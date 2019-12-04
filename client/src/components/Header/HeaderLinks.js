@@ -15,6 +15,8 @@ const useStyles = makeStyles(styles);
 
 function HeaderLinks(props) {
   const classes = useStyles();
+  console.log("header link")
+  console.log(props)
   if(props.isLoggedIn){
     return (
       <List className={classes.list}>
@@ -105,6 +107,10 @@ const mapStateToProps = (state) =>{
   return ({
     isLoggedIn: state.isLoggedIn
   })
+}
+
+const mapDispatchToProps = (action) => {
+
 }
 
 export default connect(mapStateToProps)(HeaderLinks)
