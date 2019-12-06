@@ -95,11 +95,78 @@ postgreSQLclient
 .then(() => console.log('connected to PostgreSQL'))
 .catch(err => console.error('connection error to PostgreSQL', err.stack))
 
+//GET, POST, PUT, DELETE functions for postgres data
+const getUsers = (req, res) => {
+  postgreSQLclient.query('SELECT * FROM admin ORDER BY id ASC', (error, results) => {
+    if (error) {
+      throw error
+    }
+    res.status(200).json(results.rows)
+  })
+}
 
+const getUserById = (req, res) => {
+  const id = parseInt(req.params.id)
 
+  postgreSQLclient.query('SELECT * FROM admin WHERE id = $1', [id], (error, results) => {
+    if (error) {
+      throw error
+    }
+    res.status(200).json(results.rows)
+  })
+}
+
+const createUser = (req, res) => {
+  const {
+    firstname, lastname, email, phone, title, googleId, address, city, statename, zipcode, description
+  } = req.body
+
+  postgreSQLclient.query('INSERT INTO admin (firstname, lastname, email, phone, title, googleId, address, city, statename, zipcode, description) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)',
+  [firstname, lastname, email, phone, title, googleId, address, city, statename, zipcode, description], (error, results) => {
+    if (error) {
+      throw error
+    }
+    res.status(201).send(`User added with ID: ${results.insertId}`)
+  })
+}
+
+const updateUser = (req, res) => {
+  const id = parseInt(req.params.id)
+  const {
+    firstname, lastname, email, phone, title, googleId, address, city, statename, zipcode, description
+  } = req.body
+
+  postgreSQLclient.query(
+    'UPDATE admin SET firstname = $1, lastname = $2, email = $3, phone = $4, title = $5, googleId = $6, address = $7, city = $8, statename = $9, zipcode = $10, description = $11 WHERE id = $12',
+    [firstname, lastname, email, phone, title, googleId, address, city, statename, zipcode, description, id],
+    (error, results) => {
+      if (error) {
+        throw error
+      }
+      res.status(200).send(`User modified with ID: ${id}`)
+    }
+  )
+}
+
+const deleteUser = (req, res) => {
+  const id = parseInt(req.params.id)
+
+  postgreSQLclient.query('DELETE FROM users WHERE id = $1', [id], (error, results) => {
+    if (error) {
+      throw error
+    }
+    res.status(200).send(`User deleted with ID: ${id}`)
+  })
+}
 
 app.use("/", generalRoutes);
 app.use("/auth", authRoutes);
+app.get('/users', getUsers)
+app.get('/users/:id', getUserById)
+app.post('/users', createUser)
+app.put('/users/:id', updateUser)
+app.delete('/users/:id', deleteUser)
+
 app.use(express.static('client/build'));
 
 app.use(function handlePostgresError(error, req, res, next){
@@ -117,6 +184,11 @@ app.get('*', (request, response) => {
 }); 
 */
 
-module.exports = app;
-
-
+module.exports = {
+  app,
+  getUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser
+}

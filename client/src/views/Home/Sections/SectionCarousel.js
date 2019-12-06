@@ -3,9 +3,6 @@ import React from "react";
 import Carousel from "react-slick";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-// core components
-import GridContainer from "../../../components/Grid/GridContainer.js";
-import GridItem from "../../../components/Grid/GridItem.js";
 
 import image1 from "../../../assets/img/1.jpg";
 import image2 from "../../../assets/img/2.jpg";
@@ -16,9 +13,6 @@ import restoration from "../../../assets/img/restoration.png";
 import commercial from "../../../assets/img/commercial.png";
 import residential from "../../../assets/img/residential.png";
 import styles from "../../../assets/jss/material-kit-react/views/componentsSections/carouselStyle.js";
-import Header from "../../../components/Header/Header.js";
-import LogoImg from "../../../components/Header/LogoImg.js";
-import HeaderLinks from "../../../components/Header/HeaderLinks.js";
 const useStyles = makeStyles(styles);
 
 export default function SectionCarousel() {
@@ -56,7 +50,7 @@ export default function SectionCarousel() {
 
                   <div className="slick-caption">
                   <div class="deco">
-                    <img src={restoration}/>
+                    <img src={restoration} alt='restoration image'/>
                     <div class="deco-icon"></div>
                   </div>
                   <h1 className={classes.homeCaption}>RESTORATION</h1>

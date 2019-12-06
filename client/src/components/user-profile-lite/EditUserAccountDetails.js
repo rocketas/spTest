@@ -1,21 +1,40 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import {
-  Card,
-  CardHeader,
-  ListGroup,
-  ListGroupItem,
-  Row,
-  Col,
-  Form,
-  FormGroup,
-  FormInput,
-  FormSelect,
-  FormTextarea,
-  Button
-} from "shards-react";
+import { Card, CardHeader, ListGroup, ListGroupItem, Row, Col, Form, FormGroup, FormInput,
+        FormSelect, FormTextarea, Button } from "shards-react";
 
-const EditUserAccountDetails = ({ title }) => (
+const axios = require('axios')
+
+function EditUserAccountDetails ({title = 'Account Details'}) {
+  const [hasError, setErrors] = useState(false);
+  
+  const [firstname, setFirstName] = useState('');
+  const [lastname, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [statename, setStateName] = useState('');
+  const [zipcode, setZipcode] = useState('');
+  const [description, setDescription] = useState('');
+  
+  const firstNameHandler = (event) => {
+    setFirstName(event.target.value)
+  }
+
+  useEffect(() => {
+    async function fetchData() {
+    const res = await fetch("http://localhost:5000/users");
+    res
+      .json()
+      .then(res => setFirstName(res))
+      .catch(err => setErrors(err));
+  }
+
+  fetchData();
+  }); 
+
+return (
   <Card small className="mb-4">
     <CardHeader className="border-bottom">
       <h6 className="m-0">{title}</h6>
@@ -32,8 +51,7 @@ const EditUserAccountDetails = ({ title }) => (
                   <FormInput
                     id="feFirstName"
                     placeholder="First Name"
-                    value="Sir Robert"
-                    onChange={() => {}}
+                    onChange={firstNameHandler}
                   />
                 </Col>
                 {/* Last Name */}
@@ -42,8 +60,7 @@ const EditUserAccountDetails = ({ title }) => (
                   <FormInput
                     id="feLastName"
                     placeholder="Last Name"
-                    value="Burbridge"
-                    onChange={() => {}}
+                    /* onChange={lastNameHandler} */
                   />
                 </Col>
               </Row>
@@ -56,7 +73,7 @@ const EditUserAccountDetails = ({ title }) => (
                     id="feEmail"
                     placeholder="Email Address"
                     value="sirrobert@gmail.com"
-                    onChange={() => {}}
+                    /* onChange={emailHandler} */
                     autoComplete="email"
                   />
                 </Col>
@@ -68,7 +85,7 @@ const EditUserAccountDetails = ({ title }) => (
                     id="fePassword"
                     placeholder="Password"
                     value="EX@MPL#P@$$w0RD"
-                    onChange={() => {}}
+                    /* onChange={passwordHandler} */
                     autoComplete="current-password"
                   />
                 </Col>
@@ -79,7 +96,7 @@ const EditUserAccountDetails = ({ title }) => (
                   id="feAddress"
                   placeholder="Address"
                   value="1234 Main St."
-                  onChange={() => {}}
+                  /* onChange={addressHandler} */
                 />
               </FormGroup>
               <Row form>
@@ -89,13 +106,13 @@ const EditUserAccountDetails = ({ title }) => (
                   <FormInput
                     id="feCity"
                     placeholder="Chapel Hill"
-                    onChange={() => {}}
+                    /* onChange={cityHandler} */
                   />
                 </Col>
                 {/* State */}
                 <Col md="4" className="form-group">
                   <label htmlFor="feInputState">State</label>
-                  <FormSelect id="feInputState">
+                  <FormSelect id="feInputState" /* onChange={stateNameHandler} */>
                     <option value="AL">AL</option>
                     <option value="AK">AK</option>
                     <option value="AR">AR</option>	
@@ -155,7 +172,7 @@ const EditUserAccountDetails = ({ title }) => (
                   <FormInput
                     id="feZipCode"
                     placeholder="12345"
-                    onChange={() => {}}
+                    /* onChange={zipcodeHandler} */
                   />
                 </Col>
               </Row>
@@ -166,17 +183,20 @@ const EditUserAccountDetails = ({ title }) => (
                   <FormTextarea 
                     id="feDescription" 
                     rows="5" 
-                    placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio eaque, quidem, commodi soluta qui quae minima obcaecati quod dolorum sint alias, possimus illum assumenda eligendi cumque?"/>
+                    placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio eaque, quidem, commodi soluta qui quae minima obcaecati quod dolorum sint alias, possimus illum assumenda eligendi cumque?"
+                    /* onChange={descriptionHandler} */
+                  />
                 </Col>
               </Row>
-              <Button href="/profile">Update Account</Button>
+              <Button href="/profile" /* onClick={formSubmit} */>Update Account</Button>
             </Form>
           </Col>
         </Row>
       </ListGroupItem>
     </ListGroup>
   </Card>
-);
+  );
+}
 
 EditUserAccountDetails.propTypes = {
   /**

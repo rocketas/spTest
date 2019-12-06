@@ -26,9 +26,6 @@ const useStyles = makeStyles(styles);
 const {GoogleLogin} = require("react-google-login")
 const axios = require('axios')
 
-
-
-
 function LoginPage(props) {
 
   console.log("props of login page")
@@ -133,7 +130,7 @@ function LoginPage(props) {
             <GridItem xs={12} sm={12} md={4}>
               <Card className={classes[cardAnimaton]}>
                 <form className={classes.form}>
-                    <img src={Logo}  className={classes.image}/>
+                    <img src={Logo}  className={classes.image} alt='Onsite Drapery, LLC logo'/>
                   <CardBody>
                     <Input 
                       autoFocus={true}

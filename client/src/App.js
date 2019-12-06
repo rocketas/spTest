@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route} from "react-router-dom";
 // import { DefaultLayout } from "./layouts";
 import Home from "./views/Home/Home.js";
 import LoginPage from "./views/LoginPage/LoginPage.js";

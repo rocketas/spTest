@@ -1,5 +1,5 @@
-const app = require('./index')
+const exports = require('./index')
 
-app.listen(process.env.PORT || 5000, function(){
+exports.app.listen(process.env.PORT || 5000, function(){
     console.log("connected to node server")
 })

@@ -1,17 +1,32 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import PropTypes from "prop-types";
-import {
-  Card,
-  CardHeader,
-  ListGroup,
-  ListGroupItem,
-  Row,
-  Col,
-  Form,
-  FormGroup
-} from "shards-react";
+import { Card, CardHeader, ListGroup, ListGroupItem, Row, Col, Form, FormGroup } from "shards-react";
 
-const UserAccountDetails = ({ title }) => (
+import {connect} from 'react-redux'
+import login from '../../redux/actions/login'
+import logout from '../../redux/actions/logout'
+
+function UserAccountDetails({ title = "Account Details" }){
+  const [hasError, setErrors] = useState(false);
+  const [firstnamed, setFirstName] = useState('');
+  
+  const firstNameHandler = (event) => {
+    setFirstName(event.target.value)
+  }
+
+  useEffect(() => {
+    async function fetchData() {
+    const res = await fetch("http://localhost:5000/users");
+    res
+      .json()
+      .then(res => setFirstName(res))
+      .catch(err => setErrors(err));
+  }
+
+  fetchData();
+  });
+  
+  return(
   <Card small className="mb-4">
     <CardHeader className="border-bottom">
       <h6 className="m-0">{title}</h6>
@@ -25,7 +40,7 @@ const UserAccountDetails = ({ title }) => (
                 {/* First Name */}
                 <Col md="6" className="form-group">
                   <label htmlFor="feFirstName">First Name</label>
-                  <h5>Sir Robert</h5>
+                  <h5>{this.state.firstname}</h5>
                 </Col>
                 {/* Last Name */}
                 <Col md="6" className="form-group">
@@ -77,6 +92,7 @@ const UserAccountDetails = ({ title }) => (
     </ListGroup>
   </Card>
 );
+}
 
 UserAccountDetails.propTypes = {
   /**
@@ -89,4 +105,19 @@ UserAccountDetails.defaultProps = {
   title: "Account Details"
 };
 
-export default UserAccountDetails;
+const mapStateToProps = (state) => {
+  console.log("in mapstate of login")
+  console.log(state)
+  return({
+    isLoggedIn: state.authentication.isLoggedIn,
+    user: state.authentication.user
+  })
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return({
+    loginDispatch: (user) => dispatch(login(user)),
+    logoutDispatch: () => dispatch(logout())
+  })
+}
+export default connect(mapStateToProps, mapDispatchToProps)(UserAccountDetails);
