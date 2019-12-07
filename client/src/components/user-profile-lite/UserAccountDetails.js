@@ -6,14 +6,9 @@ import {connect} from 'react-redux'
 import login from '../../redux/actions/login'
 import logout from '../../redux/actions/logout'
 
-<<<<<<< HEAD
-function UserAccountDetails({ title = "Account Details" }){
-  /* const [hasError, setErrors] = useState(false);
-=======
 // function UserAccountDetails({ title = "Account Details" }){
 function UserAccountDetails(props){
   const [hasError, setErrors] = useState(false);
->>>>>>> 4fcecd0569d4774978c4ecfa2d5b3ca4b61c369a
   const [firstnamed, setFirstName] = useState('');
   
   const firstNameHandler = (event) => {
