@@ -7,7 +7,7 @@ import login from '../../redux/actions/login'
 import logout from '../../redux/actions/logout'
 
 function UserAccountDetails({ title = "Account Details" }){
-  const [hasError, setErrors] = useState(false);
+  /* const [hasError, setErrors] = useState(false);
   const [firstnamed, setFirstName] = useState('');
   
   const firstNameHandler = (event) => {
@@ -24,7 +24,7 @@ function UserAccountDetails({ title = "Account Details" }){
   }
 
   fetchData();
-  });
+  }); */
   
   return(
   <Card small className="mb-4">
