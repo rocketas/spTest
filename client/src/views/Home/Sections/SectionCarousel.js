@@ -33,9 +33,9 @@ export default function SectionCarousel() {
                 <div>
                   <img src={image1} alt="First slide" className="slick-image"/>
                   <div className="slick-caption">
-                  <div class="deco">
+                  <div className="deco">
                     <img src={medical}/>
-                    <div class="deco-icon"></div>
+                    <div className="deco-icon"></div>
                   </div>
                   <h1 className={classes.homeCaption}>MEDICAL</h1>
                     <h4 className={classes.homeCaption}>
@@ -49,9 +49,9 @@ export default function SectionCarousel() {
                   <img src={image2} alt="Second slide" className="slick-image"/>
 
                   <div className="slick-caption">
-                  <div class="deco">
+                  <div className="deco">
                     <img src={restoration} alt='restoration image'/>
-                    <div class="deco-icon"></div>
+                    <div className="deco-icon"></div>
                   </div>
                   <h1 className={classes.homeCaption}>RESTORATION</h1>
                     <h4 className={classes.homeCaption}>
@@ -68,9 +68,9 @@ export default function SectionCarousel() {
                   <img src={image3} alt="Third slide" className="slick-image" />
 
                   <div className="slick-caption">
-                  <div class="deco">
+                  <div className="deco">
                     <img src={commercial}/>
-                    <div class="deco-icon"></div>
+                    <div className="deco-icon"></div>
                   </div>
                   <h1 className={classes.homeCaption}>COMMERCIAL</h1>
                     <h4 className={classes.homeCaption}>
@@ -84,9 +84,9 @@ export default function SectionCarousel() {
                   <img src={image4} alt="Fourth slide" className="slick-image" />
 
                   <div className="slick-caption">
-                  <div class="deco">
+                  <div className="deco">
                     <img src={residential}/>
-                    <div class="deco-icon"></div>
+                    <div className="deco-icon"></div>
                   </div>
                     <h1 className={classes.homeCaption}>RESIDENTIAL</h1>
                     <h4 className={classes.homeCaption}>

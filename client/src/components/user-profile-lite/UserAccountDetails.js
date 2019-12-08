@@ -6,7 +6,7 @@ import {connect} from 'react-redux'
 import login from '../../redux/actions/login'
 import logout from '../../redux/actions/logout'
 
-// function UserAccountDetails({ title = "Account Details" }){
+
 function UserAccountDetails(props){
   const [hasError, setErrors] = useState(false);
   const [firstnamed, setFirstName] = useState('');
@@ -25,13 +25,13 @@ function UserAccountDetails(props){
   }
 
   fetchData();
-  }); */
+  });
   
   return(
   <Card small className="mb-4">
     <CardHeader className="border-bottom">
       {/* <h6 className="m-0">{title}</h6> */}
-      <h6 className="m-0">"Account Details"</h6>
+      <h6 className="m-0">Account Details</h6>
     </CardHeader>
     <ListGroup flush>
       <ListGroupItem className="p-3">
@@ -42,7 +42,6 @@ function UserAccountDetails(props){
                 {/* First Name */}
                 <Col md="6" className="form-group">
                   <label htmlFor="feFirstName">First Name</label>
-                  {/* <h5>{this.state.firstname}</h5> */}
                   <h5>{props.user.firstname}</h5>
                 </Col>
                 {/* Last Name */}

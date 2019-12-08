@@ -113,6 +113,7 @@ function LoginPage(props) {
   return (
     <div className={classes.loginbox}>
       <Header
+        brand=""
         absolute
         color="transparent"
         rightLinks={<HeaderLinks />}
@@ -137,7 +138,7 @@ function LoginPage(props) {
                       fullWidth={true}
                       onChange={emailHandler}
                       placeholder="Email"
-                      required="true"
+                      required={true}
                       value = {userEmail}
                     />
                     <Input 
@@ -146,7 +147,7 @@ function LoginPage(props) {
                       onChange={passwordHandler}
                       placeholder="Password"
                       type="password"
-                      required="true"
+                      required={true}
                       value = {userPassword}
                     />
                   </CardBody>
