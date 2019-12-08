@@ -69,7 +69,7 @@ render() {
             <Route path="/login" component={LoginPage} />
             <Route path="/profile" component={DashboardPage}/>
             <Route path="/editprofile" component={EditDashboardPage}/>
-            <Route path="/" exact component={LoginPage} />
+            <Route path="/" exact component={Home} />
         </BrowserRouter>
     </div>
     </PersistGate>

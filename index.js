@@ -57,13 +57,13 @@ app.use(bodyParser.urlencoded({extended: true}))
 //app.use(express.json())
 
 let loginCheck = (req, res, next) => {
-  console.log("printing req.session")
-  console.log(req.session)
-  if(req.session.user){
-    console.log("user is logged in")
-  }else{
-    console.log("user is not logged in")
-  }
+  // console.log("printing req.session")
+  // console.log(req.session)
+  // if(req.session.user){
+  //   console.log("user is logged in")
+  // }else{
+  //   console.log("user is not logged in")
+  // }
   next()
 }
 
