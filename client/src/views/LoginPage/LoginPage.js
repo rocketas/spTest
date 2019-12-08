@@ -220,80 +220,80 @@ import google from "../../assets/img/google_icon.png";
 const useStyles = makeStyles(styles);
 
 export default function LoginPage(props) {
-  // const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
-  // setTimeout(function() {
-  //   setCardAnimation("");
-  // }, 700);
-  // const classes = useStyles();
-  // const { ...rest } = props;
-  // return (
-  //   <div className={classes.loginbox}>
-  //     <Header
-  //       absolute
-  //       color="transparent"
-  //       rightLinks={<HeaderLinks />}
-  //       {...rest}
-  //     />
-  //     <div
-  //       className={classes.pageHeader}
-  //       style={{
-  //         backgroundImage: "url(" + image + ")",
-  //         backgroundSize: "cover",
-  //       }}
-  //     >
-  //       <div className={classes.container}>
-  //         <GridContainer justify="center">
-  //           <GridItem xs={12} sm={12} md={4}>
-  //             <Card className={classes[cardAnimaton]}>
-  //               <form className={classes.form}>
-  //                   <img src={Logo}  className={classes.image}/>
-  //                 <CardBody>
-  //                   <CustomInput
-  //                     labelText="Email"
-  //                     id="email"
-  //                     formControlProps={{
-  //                       fullWidth: true
-  //                     }}
-  //                     inputProps={{
-  //                       type: "email",
-  //                       endAdornment: (
-  //                         <InputAdornment position="start">
-  //                           <Email className={classes.inputIconsColor} />
-  //                         </InputAdornment>
-  //                       )
-  //                     }}
-  //                   />
-  //                   <CustomInput
-  //                     labelText="Password"
-  //                     id="pass"
-  //                     formControlProps={{
-  //                       fullWidth: true
-  //                     }}
-  //                     inputProps={{
-  //                       type: "password",
-  //                       endAdornment: (
-  //                         <InputAdornment position="start">
-  //                           <Icon className={classes.inputIconsColor}>
-  //                             lock_outline
-  //                           </Icon>
-  //                         </InputAdornment>
-  //                       ),
-  //                       autoComplete: "off"
-  //                     }}
-  //                   />
-  //                 </CardBody>
-  //                 <CardFooter className={classes.cardFooter}>
-  //                   <Button href="/profile" className={classes.loginBtn}><b>Login</b></Button>
-  //                 </CardFooter>
-  //                 <CardFooter className={classes.cardFooter}>
-  //                   <Button href="/" className={classes.googleBtn}><img src={google} className={classes.google}/>Login with Google</Button>
-  //                 </CardFooter>
-  //               </form>
-  //             </Card>
-  //           </GridItem>
-  //         </GridContainer>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
+  const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
+  setTimeout(function() {
+    setCardAnimation("");
+  }, 700);
+  const classes = useStyles();
+  const { ...rest } = props;
+  return (
+    <div className={classes.loginbox}>
+      <Header
+        absolute
+        color="transparent"
+        rightLinks={<HeaderLinks />}
+        {...rest}
+      />
+      <div
+        className={classes.pageHeader}
+        style={{
+          backgroundImage: "url(" + image + ")",
+          backgroundSize: "cover",
+        }}
+      >
+        <div className={classes.container}>
+          <GridContainer justify="center">
+            <GridItem xs={12} sm={12} md={4}>
+              <Card className={classes[cardAnimaton]}>
+                <form className={classes.form}>
+                    <img src={Logo}  className={classes.image}/>
+                  <CardBody>
+                    <CustomInput
+                      labelText="Email"
+                      id="email"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        type: "email",
+                        endAdornment: (
+                          <InputAdornment position="start">
+                            <Email className={classes.inputIconsColor} />
+                          </InputAdornment>
+                        )
+                      }}
+                    />
+                    <CustomInput
+                      labelText="Password"
+                      id="pass"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        type: "password",
+                        endAdornment: (
+                          <InputAdornment position="start">
+                            <Icon className={classes.inputIconsColor}>
+                              lock_outline
+                            </Icon>
+                          </InputAdornment>
+                        ),
+                        autoComplete: "off"
+                      }}
+                    />
+                  </CardBody>
+                  <CardFooter className={classes.cardFooter}>
+                    <Button href="/profile" className={classes.loginBtn}><b>Login</b></Button>
+                  </CardFooter>
+                  <CardFooter className={classes.cardFooter}>
+                    <Button href="/" className={classes.googleBtn}><img src={google} className={classes.google}/>Login with Google</Button>
+                  </CardFooter>
+                </form>
+              </Card>
+            </GridItem>
+          </GridContainer>
+        </div>
+      </div>
+    </div>
+  );
 }
