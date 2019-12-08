@@ -174,9 +174,9 @@ app.use(function handlePostgresError(error, req, res, next){
   console.log(error)
 })
 
-app.use(function authorizationError(error, req, res, next){
+// app.use(function authorizationError(error, req, res, next){
 
-})
+// })
 
 
 app.get('*', (request, response) => {
