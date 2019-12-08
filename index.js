@@ -159,6 +159,7 @@ const deleteUser = (req, res) => {
   })
 }
 
+app.use(express.static('client/build'));
 app.use("/", generalRoutes);
 app.use("/auth", authRoutes);
 app.get('/users', getUsers)
@@ -167,7 +168,6 @@ app.post('/users', createUser)
 app.put('/users/:id', updateUser)
 app.delete('/users/:id', deleteUser)
 
-app.use(express.static('client/build'));
 
 app.use(function handlePostgresError(error, req, res, next){
   console.log("in error handling middlware")
