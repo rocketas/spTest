@@ -159,8 +159,7 @@ const deleteUser = (req, res) => {
   })
 }
 
-app.use(express.static('client/build'));
-app.use("", generalRoutes);
+app.use("/", generalRoutes);
 app.use("/auth", authRoutes);
 app.get('/users', getUsers)
 app.get('/users/:id', getUserById)
@@ -168,6 +167,7 @@ app.post('/users', createUser)
 app.put('/users/:id', updateUser)
 app.delete('/users/:id', deleteUser)
 
+app.use(express.static('client/build'));
 
 app.use(function handlePostgresError(error, req, res, next){
   console.log("in error handling middlware")
@@ -178,11 +178,11 @@ app.use(function authorizationError(error, req, res, next){
 
 })
 
-/*
+
 app.get('*', (request, response) => {
 	response.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 }); 
-*/
+
 
 module.exports = {
   app,
