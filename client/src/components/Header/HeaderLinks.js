@@ -90,7 +90,7 @@ function HeaderLinks(props) {
         </ListItem>
         <ListItem className={classes.listItem}>
           <Button
-            href="/profile"
+            href="/login"
             color="transparent"
             className={classes.navLink}
           >
