@@ -160,7 +160,7 @@ const deleteUser = (req, res) => {
 }
 
 app.use(express.static('client/build'));
-app.use("/", generalRoutes);
+app.use("", generalRoutes);
 app.use("/auth", authRoutes);
 app.get('/users', getUsers)
 app.get('/users/:id', getUserById)
