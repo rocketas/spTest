@@ -35,8 +35,8 @@ let createClientObjectJSON = (params) =>{
 */
 
 
-app.get("/login", function(req,res){
-    console.log("in login route")
-})
+// app.get("/login", function(req,res){
+//     console.log("in login route")
+// })
 
 module.exports = app;

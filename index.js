@@ -57,13 +57,13 @@ app.use(bodyParser.urlencoded({extended: true}))
 //app.use(express.json())
 
 let loginCheck = (req, res, next) => {
-  console.log("printing req.session")
-  console.log(req.session)
-  if(req.session.user){
-    console.log("user is logged in")
-  }else{
-    console.log("user is not logged in")
-  }
+  // console.log("printing req.session")
+  // console.log(req.session)
+  // if(req.session.user){
+  //   console.log("user is logged in")
+  // }else{
+  //   console.log("user is not logged in")
+  // }
   next()
 }
 
@@ -173,15 +173,15 @@ app.use(function handlePostgresError(error, req, res, next){
   console.log(error)
 })
 
-app.use(function authorizationError(error, req, res, next){
+// app.use(function authorizationError(error, req, res, next){
 
-})
+// })
 
-/*
+
 app.get('*', (request, response) => {
 	response.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 }); 
-*/
+
 
 module.exports = {
   app,
