@@ -1,8 +1,11 @@
+import { hasBrowserCrypto } from 'google-auth-library/build/src/crypto/crypto';
+
 const express  = require('express'),
       {Client} = require("pg"),
          app   = express(),
+         bcrypt       = require('bcrypt'),
          env   = require('dotenv');
-         env.config()
+         env.config();
 
 const path          = require('path'),
       generalRoutes = require("./routes/general-routes"), 
@@ -153,18 +156,25 @@ app.put('/users/:id', function(req, res){
   const {
     first_name, last_name, username, password, phone, job_title, googleId, address, city, state_name, zipcode, job_description, account_description
   } = req.body
-
-  postgreSQLclient.query(
-    'UPDATE test SET first_name = $1, last_name = $2, password = $3, phone = $4, job_title = $5, googleId = $6, address = $7, city = $8, state_name = $9, zipcode = $10, job_description = $11, account_description = $12 WHERE username = $13',
-    [first_name, last_name,password, phone, job_title, googleId, address, city, state_name, zipcode, job_description, account_description, username],
-    (error, results) => {
-      if (error) {
-        console.log('data not updated');
-        console.log(error);
-      }
-      res.status(200).send(`User modified: ${username}`)
+  console.log(password); 
+  bcrypt.hash(password,4,(err,hash) =>{
+    if(err){
+      console.log(err)
+    }else{
+      postgreSQLclient.query(
+        'UPDATE test SET first_name = $1, last_name = $2, password = $3, phone = $4, job_title = $5, googleId = $6, address = $7, city = $8, state_name = $9, zipcode = $10, job_description = $11, account_description = $12 WHERE username = $13',
+        [first_name, last_name,hash, phone, job_title, googleId, address, city, state_name, zipcode, job_description, account_description, username],
+        (error, results) => {
+          if (error) {
+            console.log('data not updated');
+            console.log(error);
+          }
+          res.status(200).send(`User modified: ${username}`)
+        }
+      )
     }
-  )
+  })
+
 });
 
 app.delete('users', function(req, res){

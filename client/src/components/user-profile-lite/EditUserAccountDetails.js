@@ -14,6 +14,7 @@ function EditUserAccountDetails (props) {
   const [firstname, setFirstName] = useState(props.user.first_name);
   const [lastname, setLastName] = useState(props.user.last_name);
   const [email, setEmail] = useState(props.user.username);
+  const [phone, setPhone] = useState(props.user.phone);
   const [password, setPassword] = useState(props.user.password);
   const [address, setAddress] = useState(props.user.address);
   const [city, setCity] = useState(props.user.city);
@@ -37,10 +38,10 @@ function EditUserAccountDetails (props) {
     setPassword(e.target.value);
     console.log(e.target.value);
   } 
-  /* const phoneHandler = (e) => {
+  const phoneHandler = (e) => {
     setPhone(e.target.value);
     console.log(e.target.value);
-  }  */
+  } 
   const addressHandler = (e) => {
     setAddress(e.target.value);
     console.log(e.target.value);
@@ -72,7 +73,10 @@ function EditUserAccountDetails (props) {
       city: city,
       state_name: statename,
       zipcode: zipcode,
-      account_description: description
+      account_description: description,
+      job_title: props.user.job_title,
+      phone: props.user.phone,
+      job_description: props.user.job_description
     }
     console.log(userInput);
     try{
@@ -124,17 +128,17 @@ return (
                   />
                 </Col>
               </Row>
-              {/* <Row form>
+              <Row form>
                 <Col md="6" className="form-group">
                   <label htmlFor="feFirstName">Phone Number</label>
                   <FormInput
                     id="fePhone"
-                    defaultValue={props.user.first_name}
-                    placeholder={props.user.first_name}
+                    defaultValue={props.user.phone}
+                    placeholder={props.user.phone}
                    onChange={e => phoneHandler(e)}
                   />
                 </Col>
-              </Row> */}
+              </Row>
               <Row form>
                 {/* Email */}
                 <Col md="6" className="form-group">
@@ -266,7 +270,7 @@ return (
                   />
                 </Col>
               </Row>
-              <Button href="/profile" onClick={e=>formSubmit(e)}>Update Account</Button>
+              <Button onClick={e=>formSubmit(e)}>Update Account</Button>
             </Form>
           </Col>
         </Row>
