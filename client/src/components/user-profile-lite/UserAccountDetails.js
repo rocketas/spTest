@@ -8,24 +8,6 @@ import logout from '../../redux/actions/logout'
 
 
 function UserAccountDetails(props){
-  const [hasError, setErrors] = useState(false);
-  const [firstnamed, setFirstName] = useState('');
-  
-  const firstNameHandler = (event) => {
-    setFirstName(event.target.value)
-  }
-
-  useEffect(() => {
-    async function fetchData() {
-    const res = await fetch("http://localhost:5000/users");
-    res
-      .json()
-      .then(res => setFirstName(res))
-      .catch(err => setErrors(err));
-  }
-
-  fetchData();
-  });
   
   return(
   <Card small className="mb-4">
@@ -42,49 +24,51 @@ function UserAccountDetails(props){
                 {/* First Name */}
                 <Col md="6" className="form-group">
                   <label htmlFor="feFirstName">First Name</label>
-                  <h5>{props.user.firstname}</h5>
+                  <h5>{props.user.first_name}</h5>
                 </Col>
                 {/* Last Name */}
                 <Col md="6" className="form-group">
                   <label htmlFor="feLastName">Last Name</label>
-                  <h5>Burbridge</h5>
+                  <h5>{props.user.last_name}</h5>
                 </Col>
               </Row>
               <Row form>
                 {/* Email */}
                 <Col md="6" className="form-group">
                   <label htmlFor="feEmail">Email</label>
-                  <h5>sirrobert@gmail.com</h5>
+                  <h5>{props.user.username}</h5>
+                </Col>
+                <Col md="6" className="form-group">
+                  <label htmlFor="fePhone">Phone Number</label>
+                  <h5>{props.user.phone}</h5>
                 </Col>
               </Row>
               <FormGroup>
                 <label htmlFor="feAddress">Address</label>
-                <h5>1234 Main St.</h5>
+                <h5>{props.user.address}</h5>
               </FormGroup>
               <Row form>
                 {/* City */}
                 <Col md="6" className="form-group">
                   <label htmlFor="feCity">City</label>
-                  <h5>Chapel Hill</h5>
+                  <h5>{props.user.city}</h5>
                 </Col>
                 {/* State */}
                 <Col md="4" className="form-group">
                   <label htmlFor="feInputState">State</label>
-                  <h5>NC</h5>
+                  <h5>{props.user.state_name}</h5>
                 </Col>
                 {/* Zip Code */}
                 <Col md="2" className="form-group">
                   <label htmlFor="feZipCode">Zip</label>
-                  <h5>12345</h5>
+                  <h5>{props.user.zipcode}</h5>
                 </Col>
               </Row>
               <Row form>
                 {/* Description */}
                 <Col md="12" className="form-group">
                   <label htmlFor="feDescription">Description</label>
-                  <h5>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                    Odio eaque, quidem, commodi soluta qui quae minima obcaecati 
-                    quod dolorum sint alias, possimus illum assumenda eligendi cumque?</h5>
+                  <h5>{props.user.account_description}</h5>
                 </Col>
               </Row>
             </Form>

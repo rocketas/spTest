@@ -9,41 +9,47 @@ import {
   Progress
 } from "shards-react";
 
-const UserDetails = ({ userDetails }) => (
+import {connect} from 'react-redux'
+import login from '../../redux/actions/login'
+import logout from '../../redux/actions/logout'
+
+const UserDetails = (props) => (
   <Card small className="mb-4 pt-3">
     <CardHeader className="border-bottom text-center">
       <div className="mb-3 mx-auto">
         <img
           className="rounded-circle"
-          src={userDetails.avatar}
-          alt={userDetails.name}
+          src={props.avatar}
+          alt='Avatar Image'
           width="110"
         />
       </div>
-      <h4 className="mb-0">{userDetails.name}</h4>
-      <span className="text-muted d-block mb-2">{userDetails.jobTitle}</span>
+      <h4 className="mb-0">{props.user.first_name+" "+props.user.last_name}</h4>
+      <span className="text-muted d-block mb-2">{props.user.job_title}</span>
     </CardHeader>
     <ListGroup flush>
       <ListGroupItem className="px-4">
         <div className="progress-wrapper">
           <strong className="text-muted d-block mb-2">
-            {userDetails.performanceReportTitle}
+            Workload
           </strong>
           <Progress
             className="progress-sm"
-            value={userDetails.performanceReportValue}
+            value={props.performanceReportValue}
           >
             <span className="progress-value">
-              {userDetails.performanceReportValue}%
+              {props.performanceReportValue}}%
             </span>
           </Progress>
         </div>
       </ListGroupItem>
       <ListGroupItem className="p-4">
         <strong className="text-muted d-block mb-2">
-          {userDetails.metaTitle}
+        Description
         </strong>
-        <span>{userDetails.metaValue}</span>
+        <span>
+          {props.user.job_description}
+        </span>
       </ListGroupItem>
     </ListGroup>
   </Card>
@@ -57,16 +63,31 @@ UserDetails.propTypes = {
 };
 
 UserDetails.defaultProps = {
-  userDetails: {
+ /*  userDetails: {
     name: "Sir Robert Burbridge",
     avatar: require("./../../images/avatars/client.png"),
     jobTitle: "Manager",
     performanceReportTitle: "Workload",
     performanceReportValue: 74,
-    metaTitle: "Description",
-    metaValue:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio eaque, quidem, commodi soluta qui quae minima obcaecati quod dolorum sint alias, possimus illum assumenda eligendi cumque?"
-  }
+  } */
 };
 
-export default UserDetails;
+const mapStateToProps = (state) => {
+  console.log("in mapstate of login")
+  console.log(state)
+  return({
+    isLoggedIn: state.authentication.isLoggedIn,
+    user: state.authentication.user,
+    //Info from userDetails
+    avatar: require("./../../images/avatars/client.png"),
+    performanceReportValue: 74
+  })
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return({
+    loginDispatch: (user) => dispatch(login(user)),
+    logoutDispatch: () => dispatch(logout())
+  })
+}
+export default connect(mapStateToProps, mapDispatchToProps)(UserDetails);
