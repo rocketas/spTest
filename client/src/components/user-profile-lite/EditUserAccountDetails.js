@@ -3,14 +3,22 @@ import PropTypes from "prop-types";
 import { Card, CardHeader, ListGroup, ListGroupItem, Row, Col, Form, FormGroup, FormInput,
         FormSelect, FormTextarea, Button } from "shards-react";
 
+import {connect} from 'react-redux';
+import login from '../../redux/actions/login';
+import logout from '../../redux/actions/logout';
+
 const axios = require('axios')
 
-function EditUserAccountDetails ({title = 'Account Details'}) {
+const change = (e) => {
+  console.log(e.target.value);
+  e.value = e.target.value; 
+}
+function EditUserAccountDetails (props) {
 
 return (
   <Card small className="mb-4">
     <CardHeader className="border-bottom">
-      <h6 className="m-0">{title}</h6>
+      <h6 className="m-0">{props.title}</h6>
     </CardHeader>
     <ListGroup flush>
       <ListGroupItem className="p-3">
@@ -23,8 +31,9 @@ return (
                   <label htmlFor="feFirstName">First Name</label>
                   <FormInput
                     id="feFirstName"
-                    placeholder="First Name"
-                    /* onChange={} */
+                    defaultValue={props.user.first_name}
+                    placeholder={props.user.first_name}
+                    onChange={e => change(e)}
                   />
                 </Col>
                 {/* Last Name */}
@@ -32,8 +41,9 @@ return (
                   <label htmlFor="feLastName">Last Name</label>
                   <FormInput
                     id="feLastName"
-                    placeholder="Last Name"
-                    /* onChange= */
+                    defaultValue={props.user.last_name}
+                    placeholder={props.user.last_name}
+                    onChange={e => change(e)}
                   />
                 </Col>
               </Row>
@@ -44,9 +54,9 @@ return (
                   <FormInput
                     type="email"
                     id="feEmail"
-                    placeholder="Email Address"
-                    value="sirrobert@gmail.com"
-                    /* onChange=*/
+                    defaultValue={props.user.username}
+                    placeholder={props.user.username}
+                    onChange={e => change(e)}
                     autoComplete="email"
                   />
                 </Col>
@@ -56,9 +66,9 @@ return (
                   <FormInput
                     type="password"
                     id="fePassword"
-                    placeholder="Password"
-                    value="EX@MPL#P@$$w0RD"
-                    /* onChange= */
+                    defaultValue={props.user.password}
+                    placeholder={props.user.password}
+                    onChange={e => change(e)}
                     autoComplete="current-password"
                   />
                 </Col>
@@ -67,9 +77,9 @@ return (
                 <label htmlFor="feAddress">Address</label>
                 <FormInput
                   id="feAddress"
-                  placeholder="Address"
-                  value="1234 Main St."
-                  /* onChange=*/
+                  defaultValue={props.user.address}
+                  placeholder={props.user.address}
+                  onChange={e => change(e)}
                 />
               </FormGroup>
               <Row form>
@@ -78,14 +88,17 @@ return (
                   <label htmlFor="feCity">City</label>
                   <FormInput
                     id="feCity"
-                    placeholder="Chapel Hill"
-                    /* onChange=*/
+                    defaultValue={props.user.city}
+                    placeholder={props.user.city}
+                    onChange={e => change(e)}
                   />
                 </Col>
                 {/* State */}
                 <Col md="4" className="form-group">
                   <label htmlFor="feInputState">State</label>
-                  <FormSelect id="feInputState" /* onChange=*/>
+                  <FormSelect id="feInputState" defaultValue={props.user.state_name}
+                    placeholder={props.user.state_name}
+                    onChange={e => change(e)}>
                     <option value="AL">AL</option>
                     <option value="AK">AK</option>
                     <option value="AR">AR</option>	
@@ -144,8 +157,9 @@ return (
                   <label htmlFor="feZipCode">Zip</label>
                   <FormInput
                     id="feZipCode"
-                    placeholder="12345"
-                    /* onChange= */
+                    defaultValue={props.user.zipcode}
+                    placeholder={props.user.zipcode}
+                    onChange={e => change(e)}
                   />
                 </Col>
               </Row>
@@ -156,8 +170,9 @@ return (
                   <FormTextarea 
                     id="feDescription" 
                     rows="5" 
-                    placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio eaque, quidem, commodi soluta qui quae minima obcaecati quod dolorum sint alias, possimus illum assumenda eligendi cumque?"
-                    /* onChange= */
+                    defaultValue={props.user.account_description}
+                    placeholder={props.user.account_description}
+                    onChange={e => change(e)}
                   />
                 </Col>
               </Row>
@@ -182,4 +197,21 @@ EditUserAccountDetails.defaultProps = {
   title: "Account Details"
 };
 
-export default EditUserAccountDetails;
+const mapStateToProps = (state) => {
+  console.log("in mapstate of login")
+  console.log(state)
+  return({
+    isLoggedIn: state.authentication.isLoggedIn,
+    user: state.authentication.user,
+    //additional props
+    title: 'Account Details'
+  })
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return({
+    loginDispatch: (user) => dispatch(login(user)),
+    logoutDispatch: () => dispatch(logout())
+  })
+}
+export default connect(mapStateToProps, mapDispatchToProps)(EditUserAccountDetails);

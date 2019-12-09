@@ -118,11 +118,11 @@ const getUserById = (req, res) => {
 
 const createUser = (req, res) => {
   const {
-    firstname, lastname, username, password, phone, title, googleId, address, city, statename, zipcode, description
+    first_name, last_name, username, password, phone, job_title, googleId, address, city, state_name, zipcode, job_description, account_description
   } = req.body
 
-  postgreSQLclient.query('INSERT INTO test (firstname, lastname, username, password, phone, title, googleId, address, city, statename, zipcode, description) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)',
-  [firstname, lastname, username, password, phone, title, googleId, address, city, statename, zipcode, description], (error, results) => {
+  postgreSQLclient.query('INSERT INTO test (first_name, last_name, username, password, phone, job_title, googleId, address, city, state_name, zipcode, job_description, account_description) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)',
+  [first_name, last_name, username, password, phone, job_title, googleId, address, city, state_name, zipcode, job_description, account_description], (error, results) => {
     if (error) {
       throw error
     }
@@ -133,12 +133,12 @@ const createUser = (req, res) => {
 const updateUser = (req, res) => {
   const id = parseInt(req.params.id)
   const {
-    firstname, lastname, username, password, phone, title, googleId, address, city, statename, zipcode, description
+    first_name, last_name, username, password, phone, job_title, googleId, address, city, state_name, zipcode, job_description, account_description
   } = req.body
 
   postgreSQLclient.query(
-    'UPDATE test SET firstname = $1, lastname = $2, username = $3, password = $4, phone = $5, title = $6, googleId = $7, address = $8, city = $9, statename = $10, zipcode = $11, description = $12 WHERE id = $13',
-    [firstname, lastname, username, password, phone, title, googleId, address, city, statename, zipcode, description, id],
+    'UPDATE test SET first_name = $1, last_name = $2, username = $3, password = $4, phone = $5, job_title = $6, googleId = $7, address = $8, city = $9, state_name = $10, zipcode = $11, job_description = $12, account_description = $13 WHERE id = $14',
+    [first_name, last_name, username, password, phone, job_title, googleId, address, city, state_name, zipcode, job_description, account_description, id],
     (error, results) => {
       if (error) {
         throw error
