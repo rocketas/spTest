@@ -96,12 +96,12 @@ function LoginPage(props) {
           googleId: res.profileObj.googleId
         }
       })
-
       props.loginDispatch(user.data)
       props.history.push("/profile")
       console.log("inside loginpage auth redirect")
       console.log(props.history)
     }catch(error){
+      setFailedLogin(true)
       console.log('there has been an error in responsegoogle')
       console.log(error)
     }
