@@ -39,15 +39,17 @@ function LoginPage(props) {
 
   let [userEmail, setUserEmail] = useState('');
   let [userPassword, setUserPassword] = useState('');
-  
-  
+  let [failedLogin, setFailedLogin] = useState('')
+  console.log('here')
   const passwordHandler = (event) =>{
     setUserPassword(event.target.value)
 
   }
+  console.log('shs')
   const emailHandler = (event) => {
     setUserEmail(event.target.value)
   }
+  console.log('fhj')
 
 
   //called when regular username and password login is attempted
@@ -71,7 +73,9 @@ function LoginPage(props) {
       props.loginDispatch(user)
       props.history.push("/profile")
     }catch(error){
+      setFailedLogin(true)
       console.log(error)
+
     }
   }
 
@@ -92,12 +96,13 @@ function LoginPage(props) {
           googleId: res.profileObj.googleId
         }
       })
-
       props.loginDispatch(user.data)
       props.history.push("/profile")
       console.log("inside loginpage auth redirect")
       console.log(props.history)
     }catch(error){
+      setFailedLogin(true)
+      console.log('there has been an error in responsegoogle')
       console.log(error)
     }
    
@@ -110,6 +115,14 @@ function LoginPage(props) {
   //Query backend with authorization code, backend needs to swap auth code for token
   // once token is received, we can start to pull data from API
   
+  let failedLoginAlert = <p> </p>
+  if(failedLogin){
+    failedLoginAlert = <div>
+      <p>Wrong username or password. Please try again.</p>
+      <p>If you do not have an account, please contact System Administrator to create one</p>
+      </div>
+  }
+
   return (
     <div className={classes.loginbox}>
       <Header
@@ -129,6 +142,7 @@ function LoginPage(props) {
         <div className={classes.container}>
           <GridContainer justify="center">
             <GridItem xs={12} sm={12} md={4}>
+              {failedLoginAlert}
               <Card className={classes[cardAnimaton]}>
                 <form className={classes.form}>
                     <img src={Logo}  className={classes.image} alt='Onsite Drapery, LLC logo'/>
@@ -189,7 +203,6 @@ const mapDispatchToProps = (dispatch) => {
     logoutDispatch: () => dispatch(logout())
   })
 }
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps
