@@ -107,7 +107,7 @@ let findUserByUsernameAndPassword = async (username, password, next) => {
     }catch(error){
         next(error)
     }
-    console.log("if reponse is undefined should not b here")
+    console.log("if response is undefined should not be here")
     console.log(response)
 
     //checks if password was correct

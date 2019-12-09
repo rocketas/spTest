@@ -75,7 +75,6 @@ function LoginPage(props) {
     }catch(error){
       setFailedLogin(true)
       console.log(error)
-
     }
   }
 

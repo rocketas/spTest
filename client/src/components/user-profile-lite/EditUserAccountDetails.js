@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import PropTypes from "prop-types";
 import { Card, CardHeader, ListGroup, ListGroupItem, Row, Col, Form, FormGroup, FormInput,
         FormSelect, FormTextarea, Button } from "shards-react";
@@ -9,11 +9,88 @@ import logout from '../../redux/actions/logout';
 
 const axios = require('axios')
 
-const change = (e) => {
-  console.log(e.target.value);
-  e.value = e.target.value; 
-}
 function EditUserAccountDetails (props) {
+
+  const [firstname, setFirstName] = useState(props.user.first_name);
+  const [lastname, setLastName] = useState(props.user.last_name);
+  const [email, setEmail] = useState(props.user.username);
+  const [password, setPassword] = useState(props.user.password);
+  const [address, setAddress] = useState(props.user.address);
+  const [city, setCity] = useState(props.user.city);
+  const [statename, setStateName] = useState(props.user.state_name);
+  const [zipcode, setZipcode] = useState(props.user.zipcode);
+  const [description, setDescription] = useState(props.user.account_description);
+  
+  const firstNameHandler = (e) => {
+    setFirstName(e.target.value);
+    console.log(e.target.value);
+  }
+  const lastNameHandler = (e) => {
+    setLastName(e.target.value);
+    console.log(e.target.value);
+  }
+  const emailHandler = (e) => {
+    setEmail(e.target.value);
+    console.log(e.target.value);
+  } 
+  const passwordHandler = (e) => {
+    setPassword(e.target.value);
+    console.log(e.target.value);
+  } 
+  /* const phoneHandler = (e) => {
+    setPhone(e.target.value);
+    console.log(e.target.value);
+  }  */
+  const addressHandler = (e) => {
+    setAddress(e.target.value);
+    console.log(e.target.value);
+  } 
+  const cityHandler = (e) => {
+    setCity(e.target.value);
+    console.log(e.target.value);
+  } 
+  const stateNameHandler = (e) => {
+    setStateName(e.target.value);
+    console.log(e.target.value);
+  } 
+  const zipcodeHandler = (e) => {
+    setZipcode(e.target.value);
+    console.log(e.target.value);
+  } 
+  const descriptionHandler = (e) => {
+    setDescription(e.target.value);
+    console.log(e.target.value);
+  }  
+
+  const formSubmit = async (e) => {
+    let userInput = {
+      first_name: firstname,
+      last_name: lastname,
+      username: email,
+      password: password,
+      address: address,
+      city: city,
+      state_name: statename,
+      zipcode: zipcode,
+      account_description: description
+    }
+    console.log(userInput);
+    try{
+      let response = await axios({
+        method:'put',
+        url: 'http://localhost:5000/users/:'+props.user.id,
+        headers: {
+         'content-type': 'application/json'
+        },
+        data: userInput
+      })
+      let user = response.data; 
+      props.loginDispatch(user);
+
+    }catch(error){
+      console.log('Error: '+error)
+    }
+  }
 
 return (
   <Card small className="mb-4">
@@ -33,7 +110,7 @@ return (
                     id="feFirstName"
                     defaultValue={props.user.first_name}
                     placeholder={props.user.first_name}
-                    onChange={e => change(e)}
+                   onChange={e => firstNameHandler(e)}
                   />
                 </Col>
                 {/* Last Name */}
@@ -43,10 +120,21 @@ return (
                     id="feLastName"
                     defaultValue={props.user.last_name}
                     placeholder={props.user.last_name}
-                    onChange={e => change(e)}
+                    onChange={e => lastNameHandler(e)}
                   />
                 </Col>
               </Row>
+              {/* <Row form>
+                <Col md="6" className="form-group">
+                  <label htmlFor="feFirstName">Phone Number</label>
+                  <FormInput
+                    id="fePhone"
+                    defaultValue={props.user.first_name}
+                    placeholder={props.user.first_name}
+                   onChange={e => phoneHandler(e)}
+                  />
+                </Col>
+              </Row> */}
               <Row form>
                 {/* Email */}
                 <Col md="6" className="form-group">
@@ -56,10 +144,12 @@ return (
                     id="feEmail"
                     defaultValue={props.user.username}
                     placeholder={props.user.username}
-                    onChange={e => change(e)}
+                    onChange={e => emailHandler(e)}
                     autoComplete="email"
+                    disabled
                   />
                 </Col>
+                
                 {/* Password */}
                 <Col md="6" className="form-group">
                   <label htmlFor="fePassword">Password</label>
@@ -68,7 +158,7 @@ return (
                     id="fePassword"
                     defaultValue={props.user.password}
                     placeholder={props.user.password}
-                    onChange={e => change(e)}
+                    onChange={e => passwordHandler(e)}
                     autoComplete="current-password"
                   />
                 </Col>
@@ -79,7 +169,7 @@ return (
                   id="feAddress"
                   defaultValue={props.user.address}
                   placeholder={props.user.address}
-                  onChange={e => change(e)}
+                  onChange={e => addressHandler(e)}
                 />
               </FormGroup>
               <Row form>
@@ -90,7 +180,7 @@ return (
                     id="feCity"
                     defaultValue={props.user.city}
                     placeholder={props.user.city}
-                    onChange={e => change(e)}
+                    onChange={e => cityHandler(e)}
                   />
                 </Col>
                 {/* State */}
@@ -98,7 +188,7 @@ return (
                   <label htmlFor="feInputState">State</label>
                   <FormSelect id="feInputState" defaultValue={props.user.state_name}
                     placeholder={props.user.state_name}
-                    onChange={e => change(e)}>
+                    onChange={e => stateNameHandler(e)}>
                     <option value="AL">AL</option>
                     <option value="AK">AK</option>
                     <option value="AR">AR</option>	
@@ -159,7 +249,7 @@ return (
                     id="feZipCode"
                     defaultValue={props.user.zipcode}
                     placeholder={props.user.zipcode}
-                    onChange={e => change(e)}
+                    onChange={e => zipcodeHandler(e)}
                   />
                 </Col>
               </Row>
@@ -172,11 +262,11 @@ return (
                     rows="5" 
                     defaultValue={props.user.account_description}
                     placeholder={props.user.account_description}
-                    onChange={e => change(e)}
+                    onChange={e => descriptionHandler(e)}
                   />
                 </Col>
               </Row>
-              <Button href="/profile" /* onClick= */>Update Account</Button>
+              <Button href="/profile" onClick={e=>formSubmit(e)}>Update Account</Button>
             </Form>
           </Col>
         </Row>

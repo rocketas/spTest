@@ -26,12 +26,15 @@ let whiteListOrigins = [
   'http://localhost:5000/auth/login',
   'http://localhost:5000/auth/signup',
   'http://localhost:5000/auth/logout',
-  'http://localhost:5000/auth/login'
+  'http://localhost:5000/auth/login',
+  'http://localhost:5000/users',
+  'http://localhost:5000/users:id'
 ]
 
 
 let corsOptions = {
   origin: function(origin, callback){
+    console.log(origin);
     if(!origin || whiteListOrigins.indexOf(origin) !== -1){
       callback(null,true)
     }else{
@@ -95,77 +98,8 @@ postgreSQLclient
 .then(() => console.log('connected to PostgreSQL'))
 .catch(err => console.error('connection error to PostgreSQL', err.stack))
 
-//GET, POST, PUT, DELETE functions for postgres data
-const getUsers = (req, res) => {
-  postgreSQLclient.query('SELECT * FROM test ORDER BY id ASC', (error, results) => {
-    if (error) {
-      throw error
-    }
-    res.status(200).json(results.rows)
-  })
-}
-
-const getUserById = (req, res) => {
-  const id = parseInt(req.params.id)
-
-  postgreSQLclient.query('SELECT * FROM test WHERE id = $1', [id], (error, results) => {
-    if (error) {
-      throw error
-    }
-    res.status(200).json(results.rows)
-  })
-}
-
-const createUser = (req, res) => {
-  const {
-    first_name, last_name, username, password, phone, job_title, googleId, address, city, state_name, zipcode, job_description, account_description
-  } = req.body
-
-  postgreSQLclient.query('INSERT INTO test (first_name, last_name, username, password, phone, job_title, googleId, address, city, state_name, zipcode, job_description, account_description) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)',
-  [first_name, last_name, username, password, phone, job_title, googleId, address, city, state_name, zipcode, job_description, account_description], (error, results) => {
-    if (error) {
-      throw error
-    }
-    res.status(201).send(`User added with ID: ${results.insertId}`)
-  })
-}
-
-const updateUser = (req, res) => {
-  const id = parseInt(req.params.id)
-  const {
-    first_name, last_name, username, password, phone, job_title, googleId, address, city, state_name, zipcode, job_description, account_description
-  } = req.body
-
-  postgreSQLclient.query(
-    'UPDATE test SET first_name = $1, last_name = $2, username = $3, password = $4, phone = $5, job_title = $6, googleId = $7, address = $8, city = $9, state_name = $10, zipcode = $11, job_description = $12, account_description = $13 WHERE id = $14',
-    [first_name, last_name, username, password, phone, job_title, googleId, address, city, state_name, zipcode, job_description, account_description, id],
-    (error, results) => {
-      if (error) {
-        throw error
-      }
-      res.status(200).send(`User modified with ID: ${id}`)
-    }
-  )
-}
-
-const deleteUser = (req, res) => {
-  const id = parseInt(req.params.id)
-
-  postgreSQLclient.query('DELETE FROM users WHERE id = $1', [id], (error, results) => {
-    if (error) {
-      throw error
-    }
-    res.status(200).send(`User deleted with ID: ${id}`)
-  })
-}
-
 app.use("/", generalRoutes);
 app.use("/auth", authRoutes);
-app.get('/users', getUsers)
-app.get('/users/:id', getUserById)
-app.post('/users', createUser)
-app.put('/users/:id', updateUser)
-app.delete('/users/:id', deleteUser)
 app.use(express.static('client/build'));
 
 app.use(function handlePostgresError(error, req, res, next){
@@ -173,9 +107,76 @@ app.use(function handlePostgresError(error, req, res, next){
   console.log(error)
 })
 
-// app.use(function authorizationError(error, req, res, next){
+app.use(function(req, res, next){
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Control-Type, Accept");
+  next();
+});
 
-// })
+app.post('/users', function(req, res){
+  const {
+    first_name, last_name, username, password, phone, job_title, googleId, address, city, state_name, zipcode, job_description, account_description
+  } = req.body
+  console.log(req.body); 
+
+  postgreSQLclient.query('INSERT INTO test (first_name, last_name, username, password, phone, job_title, googleId, address, city, state_name, zipcode, job_description, account_description) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)',
+  [first_name, last_name, username, password, phone, job_title, googleId, address, city, state_name, zipcode, job_description, account_description], (error, results) => {
+    if (error) {
+      console.log('not inserted')
+    }
+    res.status(201).send(`User added with ID: ${results.insertId}`)
+  })
+});
+
+app.get('/users', function(req, res){
+  postgreSQLclient.query('SELECT * FROM test ORDER BY id ASC', (error, results) => {
+    if (error) {
+      console.log('data not received')
+    }
+    res.status(200).json(results.rows)
+  })
+});
+
+app.get('/users/:id', function(req, res){
+  const id = parseInt(req.params.id)
+
+  postgreSQLclient.query('SELECT * FROM test WHERE id = $1', [id], (error, results) => {
+    if (error) {
+      console.log('data not received')
+    }
+    res.status(200).json(results.rows)
+    console.log(res.body); 
+  })
+});
+
+app.put('/users/:id', function(req, res){
+  const {
+    first_name, last_name, username, password, phone, job_title, googleId, address, city, state_name, zipcode, job_description, account_description
+  } = req.body
+
+  postgreSQLclient.query(
+    'UPDATE test SET first_name = $1, last_name = $2, password = $3, phone = $4, job_title = $5, googleId = $6, address = $7, city = $8, state_name = $9, zipcode = $10, job_description = $11, account_description = $12 WHERE username = $13',
+    [first_name, last_name,password, phone, job_title, googleId, address, city, state_name, zipcode, job_description, account_description, username],
+    (error, results) => {
+      if (error) {
+        console.log('data not updated');
+        console.log(error);
+      }
+      res.status(200).send(`User modified: ${username}`)
+    }
+  )
+});
+
+app.delete('users', function(req, res){
+    const id = parseInt(req.params.id)
+  
+    postgreSQLclient.query('DELETE FROM users WHERE id = $1', [id], (error, results) => {
+      if (error) {
+        console.log('data not deleted')
+      }
+      res.status(200).send(`User deleted with ID: ${id}`)
+    })
+});
 
 
 app.get('*', (request, response) => {
@@ -184,10 +185,5 @@ app.get('*', (request, response) => {
 
 
 module.exports = {
-  app,
-  getUsers,
-  getUserById,
-  createUser,
-  updateUser,
-  deleteUser
+  app
 }
