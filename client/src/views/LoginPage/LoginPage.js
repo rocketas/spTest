@@ -28,7 +28,6 @@ const axios = require('axios')
 
 function LoginPage(props) {
 
-  console.log("props of login page")
   console.log(props)
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
   setTimeout(function() {
@@ -40,16 +39,13 @@ function LoginPage(props) {
   let [userEmail, setUserEmail] = useState('');
   let [userPassword, setUserPassword] = useState('');
   let [failedLogin, setFailedLogin] = useState('')
-  console.log('here')
   const passwordHandler = (event) =>{
     setUserPassword(event.target.value)
 
   }
-  console.log('shs')
   const emailHandler = (event) => {
     setUserEmail(event.target.value)
   }
-  console.log('fhj')
 
 
   //called when regular username and password login is attempted

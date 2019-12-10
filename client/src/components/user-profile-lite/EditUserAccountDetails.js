@@ -4,6 +4,7 @@ import { Card, CardHeader, ListGroup, ListGroupItem, Row, Col, Form, FormGroup, 
         FormSelect, FormTextarea, Button } from "shards-react";
 
 import {connect} from 'react-redux';
+
 import login from '../../redux/actions/login';
 import logout from '../../redux/actions/logout';
 
@@ -24,49 +25,47 @@ function EditUserAccountDetails (props) {
   
   const firstNameHandler = (e) => {
     setFirstName(e.target.value);
-    console.log(e.target.value);
   }
   const lastNameHandler = (e) => {
     setLastName(e.target.value);
-    console.log(e.target.value);
   }
   const emailHandler = (e) => {
     setEmail(e.target.value);
-    console.log(e.target.value);
   } 
   const passwordHandler = (e) => {
     setPassword(e.target.value);
-    console.log(e.target.value);
   } 
   const phoneHandler = (e) => {
+    console.log("in phone handler")
     setPhone(e.target.value);
-    console.log(e.target.value);
   } 
   const addressHandler = (e) => {
     setAddress(e.target.value);
-    console.log(e.target.value);
   } 
   const cityHandler = (e) => {
     setCity(e.target.value);
-    console.log(e.target.value);
   } 
   const stateNameHandler = (e) => {
     setStateName(e.target.value);
-    console.log(e.target.value);
   } 
   const zipcodeHandler = (e) => {
     setZipcode(e.target.value);
-    console.log(e.target.value);
   } 
   const descriptionHandler = (e) => {
     setDescription(e.target.value);
-    console.log(e.target.value);
   }  
+  const checkIfLoggedIn = () => {
+    if(props.isLoggedIn !== true){
+       props.history.push("/login")
+     }
+   }
 
+   checkIfLoggedIn()
   const formSubmit = async (e) => {
     let userInput = {
       first_name: firstname,
       last_name: lastname,
+      googleid: props.user.googleid,
       username: email,
       password: password,
       address: address,
@@ -75,10 +74,11 @@ function EditUserAccountDetails (props) {
       zipcode: zipcode,
       account_description: description,
       job_title: props.user.job_title,
-      phone: props.user.phone,
+      phone: phone,
       job_description: props.user.job_description
     }
-    console.log(userInput);
+    console.log("user input")
+    console.log(userInput)
     try{
       let response = await axios({
         method:'put',
@@ -89,6 +89,7 @@ function EditUserAccountDetails (props) {
         data: userInput
       })
       let user = response.data; 
+      //response should be user
       props.loginDispatch(user);
 
     }catch(error){
@@ -130,7 +131,7 @@ return (
               </Row>
               <Row form>
                 <Col md="6" className="form-group">
-                  <label htmlFor="feFirstName">Phone Number</label>
+                  <label htmlFor="fePhone">Phone Number</label>
                   <FormInput
                     id="fePhone"
                     defaultValue={props.user.phone}
@@ -139,34 +140,7 @@ return (
                   />
                 </Col>
               </Row>
-              <Row form>
-                {/* Email */}
-                <Col md="6" className="form-group">
-                  <label htmlFor="feEmail">Email</label>
-                  <FormInput
-                    type="email"
-                    id="feEmail"
-                    defaultValue={props.user.username}
-                    placeholder={props.user.username}
-                    onChange={e => emailHandler(e)}
-                    autoComplete="email"
-                    disabled
-                  />
-                </Col>
-                
-                {/* Password */}
-                <Col md="6" className="form-group">
-                  <label htmlFor="fePassword">Password</label>
-                  <FormInput
-                    type="password"
-                    id="fePassword"
-                    defaultValue={props.user.password}
-                    placeholder={props.user.password}
-                    onChange={e => passwordHandler(e)}
-                    autoComplete="current-password"
-                  />
-                </Col>
-              </Row>
+              
               <FormGroup>
                 <label htmlFor="feAddress">Address</label>
                 <FormInput

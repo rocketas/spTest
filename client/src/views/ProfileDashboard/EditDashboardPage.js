@@ -40,4 +40,5 @@ const mapStateToProps = (state) => {
     user: state.authentication.user
   }
 }
+
 export default connect(mapStateToProps)(UserProfileLite);

@@ -11,7 +11,11 @@ function UserProfileLite(props){
   const checkIfLoggedIn = () => {
    if(props.isLoggedIn !== true){
       props.history.push("/login")
+    }else if(props.user.first_name == undefined){
+      props.history.push('/editprofile')
+
     }
+
   }
 
   

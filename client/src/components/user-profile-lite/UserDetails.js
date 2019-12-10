@@ -13,8 +13,12 @@ import {connect} from 'react-redux'
 import login from '../../redux/actions/login'
 import logout from '../../redux/actions/logout'
 
-const UserDetails = (props) => (
-  <Card small className="mb-4 pt-3">
+function UserDetails (props){
+  console.log(' in user details page')
+  console.log(props)
+
+  return(
+<Card small className="mb-4 pt-3">
     <CardHeader className="border-bottom text-center">
       <div className="mb-3 mx-auto">
         <img
@@ -53,7 +57,11 @@ const UserDetails = (props) => (
       </ListGroupItem>
     </ListGroup>
   </Card>
-);
+  )
+  
+}
+
+
 
 UserDetails.propTypes = {
   /**

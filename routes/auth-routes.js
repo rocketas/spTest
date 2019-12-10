@@ -1,4 +1,5 @@
 import {postgreSQLclient} from '../index.js' 
+import {findUserByUsernameAndPassword , findUserByGoogleID} from './helperFunctions'
 // import {generateAccessToken, verifyToken} from '../config/tokens.js'
 
 const express     = require("express"),
@@ -73,74 +74,31 @@ app.post("/login", async (req,res, next) => {
 
 // landing route with data from google oauth
 app.post('/google/login', async (req, res , next)=>{
-
+    let insertUser = `INSERT INTO Test(username,googleid) VALUES($1,$2) RETURNING *`
+    console.log("test")
     let user = await findUserByGoogleID(req.headers.authentication, next)
     console.log(user)
     if(user === undefined){
-        res.status(401).send("user not found")
+        console.log("creating new user google login")
+        console.log(req.body)
+        console.log(req.headers.authentication)
+        postgreSQLclient.query(insertUser, [req.body.username, req.headers.authentication], (error, response) =>{
+            if(error){
+                console.log("error creating user")
+                console.log(error)
+            }else{
+                console.log("user created")
+                console.log(response.rows[0])
+                res.send(response.rows[0])
+            }
+        })
     }else{
-        console.log("printing found user")
-        console.log(user)
-        req.session.user = user
-        console.log("printing req.session in /google/login")
-        console.log(req.session)
+  
         res.send(user)
     }
 })
 
-let findUserByUsernameAndPassword = async (username, password, next) => {
-    
-    console.log(username)
-    console.log(password)
-    let findUser = `SELECT * FROM Test WHERE Test.username = $1`
-    let response;
 
-
-    //checks if accout with username exists
-    try{
-        response = await postgreSQLclient.query(findUser,[username])
-        if(response === undefined){
-            return undefined
-        }else if(response.rows.length === 0){
-            return undefined
-        }
-    }catch(error){
-        next(error)
-    }
-    console.log("if response is undefined should not be here")
-    console.log(response)
-
-    //checks if password was correct
-    try{
-        let hashedPassword = response.rows[0].password
-        let passwordCheck = await bcrypt.compare(password, hashedPassword)
-        if(passwordCheck === true){
-            return response.rows[0]
-        }else{
-            return undefined
-        }
-    }catch(error){
-        next(error)
-    }
-
-}
-
-let findUserByGoogleID = async (id, next) => {
-    console.log(id)
-    let response = undefined
-    let checkAdminQuery = `SELECT * FROM Admin WHERE Admin.googleID = $1` 
-    try{
-        response = await postgreSQLclient.query(checkAdminQuery,[id])
-    }catch(error){
-        next(error)
-    }
-    if(response === undefined){
-        return response
-    }
-    return response.rows[0]
-    
-
-}
 
 
 
